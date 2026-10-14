@@ -3,7 +3,7 @@
   "title": "QA AI — ერთწლიანი გეგმა",
   "version": "2.1",
   "range": "Q4 2026 — Q3 2027",
-  "updatedAt": "2026-10-14T19:20:00+04:00",
+  "updatedAt": "2026-10-14T19:21:02+04:00",
   "sourceUrl": "https://asterbit.slack.com/docs/T04ED18EWMA/F0C9Q2F525N",
   "pvm": {
     "title": "ASTERBIT — QA AI",
@@ -315,31 +315,31 @@
     {
       "n": 1,
       "text": "AI-ის ჩამოყალიბება QA Chapter-ის ძირითად შესაძლებლობად",
-      "tasks": "V11",
+      "tasks": "30",
       "quarter": "Q3"
     },
     {
       "n": 2,
       "text": "AI ყოველდღიურ QA-ში",
-      "tasks": "P2, P5, P6, P17",
+      "tasks": "9, 23, 12, 13",
       "quarter": "Q4 + Q1"
     },
     {
       "n": 3,
       "text": "Test Automation AI-ით",
-      "tasks": "P1, P4, P12, P14",
+      "tasks": "8, 22, 28, 15",
       "quarter": "Q4–Q2"
     },
     {
       "n": 4,
       "text": "ხარისხის ანალიზი AI-ით",
-      "tasks": "P9, P10",
+      "tasks": "26, 27",
       "quarter": "Q2"
     },
     {
       "n": 5,
       "text": "განმეორებითი საქმის შემცირება",
-      "tasks": "V4",
+      "tasks": "17",
       "quarter": "Q4"
     },
     {
@@ -351,13 +351,13 @@
     {
       "n": 7,
       "text": "AI შესაძლებლობების განვითარება Chapter-ში",
-      "tasks": "T1–T4, T7",
+      "tasks": "1–4, 21",
       "quarter": "Q4 + Q1"
     },
     {
       "n": 8,
       "text": "reusable AI პრაქტიკები",
-      "tasks": "T9, P8, P11",
+      "tasks": "25, 11, 14",
       "quarter": "Q4 + Q2"
     },
     {
@@ -369,7 +369,7 @@
     {
       "n": 10,
       "text": "ახალი AI ტექნოლოგიების კვლევა",
-      "tasks": "M1, M13",
+      "tasks": "6, 7",
       "quarter": "ყოველა"
     }
   ],
@@ -380,118 +380,118 @@
       "current": true,
       "items": [
         {
-          "id": "T1",
+          "id": "1",
           "task": "Advanced Cursor ტრენინგი",
           "area": "თიმი",
           "priority": "high"
         },
         {
-          "id": "T2",
+          "id": "2",
           "task": "აგენტისა და სქილების აწყობის სწავლა",
           "area": "თიმი",
           "priority": "high"
         },
         {
-          "id": "T3",
+          "id": "3",
           "task": "Best practice-ების რეგულარული გაზიარება",
           "area": "თიმი",
           "priority": "high"
         },
         {
-          "id": "T4",
+          "id": "4",
           "task": "AI-ზე გამოვყოფილი დრო",
           "area": "თიმი",
           "priority": "medium"
         },
         {
-          "id": "T6",
+          "id": "5",
           "task": "AI-სთან კომუნიკაცია და სწორი პრომპტინგი",
           "area": "თიმი",
           "priority": "medium"
         },
         {
-          "id": "M1",
+          "id": "6",
           "task": "AI QA-ის კვლევა",
           "area": "PVM / თიმი",
           "priority": "high"
         },
         {
-          "id": "M13",
+          "id": "7",
           "task": "ზოგადი AI-ის კვლევა",
           "area": "PVM / თიმი",
           "priority": "high"
         },
         {
-          "id": "P1",
+          "id": "8",
           "task": "Frontend ავტომატიზაციის დაწყება",
           "area": "პროექტი",
           "priority": "high"
         },
         {
-          "id": "P2",
+          "id": "9",
           "task": "პროექტის დოკუმენტაცია",
           "area": "პროექტი",
           "priority": "high"
         },
         {
-          "id": "P3",
+          "id": "10",
           "task": "Bug Reporter-ის გატესტვა და გაუმჯობესება",
           "area": "პროექტი",
           "priority": "medium"
         },
         {
-          "id": "P8",
+          "id": "11",
           "task": "Bug reporter-ის ფინანსებში გადატანა",
           "area": "პროექტი",
           "priority": "high",
           "jira": "GB-1807"
         },
         {
-          "id": "P6",
+          "id": "12",
           "task": "ბაგების კლასიფიკაცია ტიპებით, პრევენციისთვის",
           "area": "პროექტი",
           "priority": "high"
         },
         {
-          "id": "P17",
+          "id": "13",
           "task": "AI-მ იცოდეს QA მუშაობის სქემა",
           "area": "პროექტი",
           "priority": "medium"
         },
         {
-          "id": "P11",
+          "id": "14",
           "task": "ტესტები ყოველასთვის გამოსაყენებელი",
           "area": "პროექტი",
           "priority": "medium"
         },
         {
-          "id": "P14",
+          "id": "15",
           "task": "ავტომატიზაციის ქეისების დაკარგვის აღმოფხვრა",
           "area": "პროექტი",
           "priority": "medium"
         },
         {
-          "id": "P16",
+          "id": "16",
           "task": "პრომპტინგის ავტო-გაუმჯობესება",
           "area": "პროექტი",
           "priority": "medium",
           "jira": "GB-1785"
         },
         {
-          "id": "V4",
+          "id": "17",
           "task": "განმეორებითი სამუშაოს რუკა",
           "area": "PVM / პროექტი",
           "priority": "high"
         },
         {
-          "id": "P18",
+          "id": "18",
           "task": "AI project cleanup",
           "area": "პროექტი",
           "priority": "high",
           "jira": "GB-1813"
         },
         {
-          "id": "P19",
+          "id": "19",
           "task": "Gitignore ignores everything except needed files",
           "area": "პროექტი",
           "priority": "high",
@@ -505,44 +505,44 @@
       "current": false,
       "items": [
         {
-          "id": "M1",
+          "id": "6",
           "task": "AI QA-ის კვლევა",
           "area": "PVM / თიმი",
           "priority": "high"
         },
         {
-          "id": "M13",
+          "id": "7",
           "task": "ზოგადი AI-ის კვლევა",
           "area": "PVM / თიმი",
           "priority": "high"
         },
         {
-          "id": "T5",
+          "id": "20",
           "task": "Graph RAG — Before / After",
           "area": "თიმი",
           "priority": "high",
           "jira": "GB-1778"
         },
         {
-          "id": "T7",
+          "id": "21",
           "task": "თითოეული წევრი ატარებს 1 ექსპერიმენტს",
           "area": "თიმი",
           "priority": "high"
         },
         {
-          "id": "P4",
+          "id": "22",
           "task": "Frontend ავტომატიზაციის გაგრძელება",
           "area": "პროექტი",
           "priority": "high"
         },
         {
-          "id": "P5",
+          "id": "23",
           "task": "რეგრესიაში AI-ის გაზრდა",
           "area": "პროექტი",
           "priority": "high"
         },
         {
-          "id": "P7",
+          "id": "24",
           "task": "Training agent ახალი თანამშრომლისთვის",
           "area": "პროექტი",
           "priority": "medium"
@@ -555,38 +555,38 @@
       "current": false,
       "items": [
         {
-          "id": "M1",
+          "id": "6",
           "task": "AI QA-ის კვლევა",
           "area": "PVM / თიმი",
           "priority": "high"
         },
         {
-          "id": "M13",
+          "id": "7",
           "task": "ზოგადი AI-ის კვლევა",
           "area": "PVM / თიმი",
           "priority": "high"
         },
         {
-          "id": "T9",
+          "id": "25",
           "task": "პროექტებს შორის AI დონის გათანაბრება",
           "area": "თიმი",
           "priority": "high"
         },
         {
-          "id": "P9",
+          "id": "26",
           "task": "Playwright ტესტები Elasticsearch ლოგებიდან",
           "area": "პროექტი",
           "priority": "high",
           "jira": "GB-1787"
         },
         {
-          "id": "P10",
+          "id": "27",
           "task": "დეშბორდი პოტენციური ბაგების წინასწარ დასაჭერად",
           "area": "პროექტი",
           "priority": "high"
         },
         {
-          "id": "P12",
+          "id": "28",
           "task": "ავტომატიზაციის ხარისხი — ტესტები აღარ ფუჭდება",
           "area": "პროექტი",
           "priority": "medium"
@@ -599,37 +599,37 @@
       "current": false,
       "items": [
         {
-          "id": "M1",
+          "id": "6",
           "task": "AI QA-ის კვლევა",
           "area": "PVM / თიმი",
           "priority": "high"
         },
         {
-          "id": "M13",
+          "id": "7",
           "task": "ზოგადი AI-ის კვლევა",
           "area": "PVM / თიმი",
           "priority": "high"
         },
         {
-          "id": "T10",
+          "id": "29",
           "task": "AI ცვლილებების მარტივი ინფო თიმისთვის",
           "area": "თიმი",
           "priority": "medium"
         },
         {
-          "id": "V11",
+          "id": "30",
           "task": "AI არის Chapter-ის ძირითადი შესაძლებლობა",
           "area": "PVM / თიმი",
           "priority": "high"
         },
         {
-          "id": "P15",
+          "id": "31",
           "task": "AI შუამავალი ყოველა ტასკზე",
           "area": "პროექტი",
           "priority": "high"
         },
         {
-          "id": "M12",
+          "id": "32",
           "task": "მომავალი წლის გეგმა",
           "area": "PVM / პროექტი",
           "priority": "high"
