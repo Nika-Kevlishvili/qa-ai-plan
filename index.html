@@ -96,13 +96,20 @@
       flex-wrap: wrap;
     }
 
-    nav a {
+    nav button {
+      border: 1px solid transparent;
+      background: transparent;
+      border-radius: 999px;
+      padding: 0.4rem 0.8rem;
+      cursor: pointer;
       color: var(--muted);
-      text-decoration: none;
       font-size: 0.92rem;
     }
 
-    nav a:hover { color: var(--ink); }
+    nav button[aria-current="page"] {
+      background: var(--teal);
+      color: var(--teal-ink);
+    }
 
     main { padding: 2.4rem 0 4rem; }
 
@@ -172,7 +179,40 @@
       gap: 0.8rem;
     }
 
-    .pvm { grid-template-columns: repeat(3, 1fr); margin-top: 1rem; }
+    .pvm { grid-template-columns: 1fr 1fr; margin-top: 1rem; }
+
+    .view[hidden] { display: none; }
+
+    .bars { display: grid; gap: 0.65rem; }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: minmax(7rem, 14rem) 1fr auto;
+      gap: 0.7rem;
+      align-items: center;
+    }
+
+    .track {
+      height: 0.55rem;
+      background: #efeae1;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .fill {
+      display: block;
+      height: 100%;
+      background: var(--teal);
+      border-radius: 999px;
+    }
+
+    .bar-value {
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .stats.four { grid-template-columns: repeat(4, 1fr); }
 
     .panel { padding: 1rem 1.1rem 1.15rem; }
 
@@ -184,7 +224,7 @@
 
     .panel h2, .goal h3, .rule h3 { margin: 0; }
 
-    .lead { margin: 0; font-size: 1.02rem; }
+    .lead { margin: 0; font-size: 1.02rem; white-space: pre-line; }
 
     .kicker {
       margin: 0 0 0.35rem;
@@ -360,8 +400,8 @@
     }
 
     @media (max-width: 860px) {
-      .hero, .pvm, .goals, .risks, .how { grid-template-columns: 1fr; }
-      nav { display: none; }
+      .hero, .pvm, .goals, .risks, .how, .stats.four { grid-template-columns: 1fr; }
+      .bar-row { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -370,12 +410,10 @@
   <header class="site">
     <div class="wrap bar">
       <div class="brand">QA AI <span id="version">გეგმა</span></div>
-      <nav aria-label="სექციები">
-        <a href="#pvm">PVM</a>
-        <a href="#goals">მიზნები</a>
-        <a href="#plan">გეგმა</a>
-        <a href="#risks">რისკები</a>
-        <a href="#work">როგორ ვმუშაობთ</a>
+      <nav aria-label="გვერდები">
+        <button type="button" data-page="plan">გეგმა</button>
+        <button type="button" data-page="pvm">PVM</button>
+        <button type="button" data-page="feedback">ფიდბექი</button>
       </nav>
     </div>
   </header>
@@ -420,6 +458,127 @@
       return pick.day + "." + pick.month + "." + pick.year + ", " + pick.hour + ":" + pick.minute;
     }
 
+    function oneDecimal(value) {
+      return (Math.round(value * 10) / 10).toFixed(1);
+    }
+
+    function bars(items, max, suffix) {
+      const list = el("div", "bars");
+      items.forEach((item) => {
+        const row = el("div", "bar-row");
+        const track = el("div", "track");
+        const fill = el("span", "fill");
+        const width = max > 0 ? Math.max(0, Math.min(100, (item.value / max) * 100)) : 0;
+        fill.style.width = width + "%";
+        track.append(fill);
+        row.append(el("span", null, item.label), track, el("span", "bar-value", item.text || String(item.value) + (suffix || "")));
+        list.append(row);
+      });
+      return list;
+    }
+
+    function renderFeedback(feedback) {
+      const page = el("div", "view");
+      page.dataset.view = "feedback";
+      const head = el("div", "section-head");
+      const title = el("div");
+      title.append(el("h2", null, feedback.title || ""));
+      const intro = el("p", null, feedback.intro || "");
+      const sourceLine = el("p");
+      sourceLine.append(document.createTextNode("წყარო: "));
+      const source = safeUrl(feedback.sourceUrl);
+      if (source) {
+        const link = el("a", null, feedback.sourceLabel || source);
+        link.href = source;
+        sourceLine.append(link);
+      }
+      title.append(intro, sourceLine);
+      head.append(title);
+
+      const members = feedback.members || [];
+      const avgHours = members.length ? members.reduce((sum, member) => sum + Number(member.hours), 0) / members.length : 0;
+      const avgTrust = members.length ? members.reduce((sum, member) => sum + Number(member.trust), 0) / members.length : 0;
+      const stats = el("div", "stats four");
+      [
+        [oneDecimal(avgHours) + "სთ", "საშუალო ყოველდღიური AI გამოყენება"],
+        [oneDecimal(avgTrust) + "/5", "საშუალო ნდობის დონე"],
+        [members.length + "/" + members.length, "ყოველდღიური Cursor მომხმარებლები"],
+        [String(members.length), "გამოკითხული წევრები"]
+      ].forEach(([value, label]) => {
+        const stat = el("div", "stat");
+        stat.append(el("strong", null, value), el("span", null, label));
+        stats.append(stat);
+      });
+
+      const trust = el("section");
+      trust.append(el("h3", null, "ნდობის დონე წევრების მიხედვით"));
+      trust.append(bars(members.map((member) => ({
+        label: member.name,
+        value: Number(member.trust),
+        text: String(member.trust)
+      })), 5, ""));
+
+      const hoursMax = members.reduce((max, member) => Math.max(max, Number(member.hours)), 0);
+      const hours = el("section");
+      hours.append(el("h3", null, "ყოველდღიური AI გამოყენება (საათები)"));
+      hours.append(bars(members.map((member) => ({
+        label: member.name,
+        value: Number(member.hours),
+        text: member.hours + "სთ"
+      })), hoursMax, ""));
+
+      const areas = feedback.areas || [];
+      const areaMax = areas.reduce((max, area) => Math.max(max, Number(area.count)), 0);
+      const areaSection = el("section");
+      areaSection.append(el("h3", null, "AI გამოყენება სფეროების მიხედვით (რამდენი წევრი იყენებს)"));
+      areaSection.append(bars(areas.map((area) => ({
+        label: area.label,
+        value: Number(area.count),
+        text: area.count + "/9"
+      })), areaMax || 9, ""));
+
+      const problems = el("section");
+      problems.append(el("h3", null, "ძირითადი პრობლემები"));
+      const tableWrap = el("div", "table-wrap");
+      const table = document.createElement("table");
+      const thead = document.createElement("thead");
+      const headRow = document.createElement("tr");
+      ["პრობლემა", "მოხსენიებები"].forEach((label) => headRow.append(el("th", null, label)));
+      thead.append(headRow);
+      const tbody = document.createElement("tbody");
+      (feedback.problems || []).forEach((problem) => {
+        const row = document.createElement("tr");
+        row.append(el("td", null, problem.issue || ""), el("td", null, problem.votes + "/9"));
+        tbody.append(row);
+      });
+      table.append(thead, tbody);
+      tableWrap.append(table);
+      problems.append(tableWrap);
+
+      const training = el("section");
+      training.append(el("h3", null, "ტრენინგის მოთხოვნები"));
+      const trainingGrid = el("div", "goals");
+      (feedback.training || []).forEach((need) => {
+        const card = el("article", "panel");
+        card.append(el("p", "lead", need));
+        trainingGrid.append(card);
+      });
+      training.append(trainingGrid);
+
+      const quotes = el("section");
+      quotes.append(el("h3", null, "თიმის მნიშვნელოვანი შეხედულებები"));
+      const quoteList = el("div", "risks");
+      (feedback.quotes || []).forEach((quote) => {
+        const card = el("article", "risk");
+        card.append(el("strong", null, quote.name || ""), el("p", "lead", quote.text || ""));
+        quoteList.append(card);
+      });
+      quotes.append(quoteList);
+
+      page.append(head, stats, trust, hours, areaSection, problems, training, quotes);
+      return page;
+    }
+
     function uniqueCount(plan) {
       const ids = new Set();
       (plan.quarters || []).forEach((quarter) => {
@@ -440,8 +599,6 @@
         el("p", "eyebrow", plan.range || ""),
         el("h1", null, plan.title || "QA AI")
       );
-      const quote = el("p", "quote", plan.pvm && plan.pvm.vision);
-      intro.append(quote);
 
       const meta = el("aside", "meta-card");
       const stats = el("div", "stats");
@@ -457,27 +614,23 @@
       meta.append(stats, el("p", "updated", "ბოლო სინქი: " + formatWhen(plan.updatedAt)));
       hero.append(intro, meta);
 
-      const pvm = el("section");
-      pvm.id = "pvm";
+      const pvmPage = el("div", "view");
+      pvmPage.dataset.view = "pvm";
       const pvmHead = el("div", "section-head");
-      pvmHead.append(el("h2", null, "PVM"));
+      pvmHead.append(el("h2", null, (plan.pvm && plan.pvm.title) || "PVM — Purpose, Vision, Mission"));
       const pvmGrid = el("div", "pvm");
-      [
-        ["Purpose", plan.pvm && plan.pvm.purpose],
-        ["Mission", plan.pvm && plan.pvm.mission],
-        ["Value", plan.pvm && plan.pvm.value]
-      ].forEach(([label, text]) => {
+      ((plan.pvm && plan.pvm.sections) || []).forEach((section) => {
         const card = el("article", "panel");
-        card.append(el("p", "kicker", label), el("p", "lead", text || ""));
+        card.append(el("p", "kicker", section.title || ""), el("p", "lead", section.text || ""));
         pvmGrid.append(card);
       });
-      pvm.append(pvmHead, pvmGrid);
+      pvmPage.append(pvmHead, pvmGrid);
 
       const goals = el("section");
       goals.id = "goals";
       const goalsHead = el("div", "section-head");
       const goalsTitle = el("div");
-      goalsTitle.append(el("h2", null, "10 მიზანი"), el("p", null, "ხედვის პუნქტები და მათი ტასკები."));
+      goalsTitle.append(el("h2", null, "10 მიზანი"));
       goalsHead.append(goalsTitle);
       const goalGrid = el("div", "goals");
       (plan.goals || []).forEach((goal) => {
@@ -496,7 +649,7 @@
       planSection.id = "plan";
       const planHead = el("div", "section-head");
       const planTitle = el("div");
-      planTitle.append(el("h2", null, "სამუშაო გეგმა"), el("p", null, "კვარტლის ტასკები იმ რიგით, როგორც კანვასშია."));
+      planTitle.append(el("h2", null, "სამუშაო გეგმა"));
       planHead.append(planTitle);
 
       const toolbar = el("div", "toolbar");
@@ -616,7 +769,38 @@
       });
       work.append(workHead, workGrid);
 
-      main.replaceChildren(hero, pvm, goals, planSection, risks, work);
+      const planPage = el("div", "view");
+      planPage.dataset.view = "plan";
+      planPage.append(hero, goals, planSection, risks, work);
+
+      const feedbackPage = renderFeedback(plan.feedback || {});
+      main.replaceChildren(planPage, pvmPage, feedbackPage);
+
+      const views = { plan: planPage, pvm: pvmPage, feedback: feedbackPage };
+      function pageFromHash() {
+        const hash = location.hash.replace("#", "");
+        if (hash === "pvm" || hash === "feedback") return hash;
+        return "plan";
+      }
+      function showPage(page) {
+        Object.entries(views).forEach(([name, node]) => {
+          node.hidden = name !== page;
+        });
+        document.querySelectorAll("nav [data-page]").forEach((button) => {
+          if (button.dataset.page === page) button.setAttribute("aria-current", "page");
+          else button.removeAttribute("aria-current");
+        });
+      }
+      document.querySelectorAll("nav [data-page]").forEach((button) => {
+        button.onclick = () => {
+          const page = button.dataset.page;
+          const next = page === "plan" ? "#plan" : "#" + page;
+          if (location.hash !== next) history.pushState(null, "", next);
+          showPage(page);
+        };
+      });
+      window.onhashchange = () => showPage(pageFromHash());
+      showPage(pageFromHash());
 
       const foot = document.querySelector("#foot");
       foot.replaceChildren();

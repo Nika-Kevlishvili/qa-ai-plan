@@ -46,7 +46,8 @@ A new routine waits until the next scheduled time. Use Test on the routine to pu
 `plan.json` keys:
 
 - `title`, `version`, `range`, `updatedAt`, `sourceUrl`
-- `pvm.vision`, `pvm.purpose`, `pvm.mission`, `pvm.value`
+- `pvm.title`, `pvm.sections[]` with `title` and `text` (Vision, Purpose, Mission, Value Creation)
+- `feedback`: survey results shown on the Feedback tab. Copy that wording exactly.
 - `goals[]`: `n`, `text`, `tasks`, `quarter`
 - `quarters[]`: `id`, `label`, `current`, `items[]` with `id`, `task`, `area`, `priority` (`high` or `medium`)
 - `risks[]`: `quarter`, `text`
