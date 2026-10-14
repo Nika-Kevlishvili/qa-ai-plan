@@ -3,7 +3,7 @@
   "title": "QA AI — ერთწლიანი გეგმა",
   "version": "2.1",
   "range": "Q4 2026 — Q3 2027",
-  "updatedAt": "2026-10-14T16:05:00+04:00",
+  "updatedAt": "2026-10-14T16:11:43+04:00",
   "sourceUrl": "https://asterbit.slack.com/docs/T04ED18EWMA/F0C9Q2F525N",
   "pvm": {
     "title": "PVM — Purpose, Vision, Mission",
@@ -171,7 +171,7 @@
       "items": [
         { "id": "M1", "task": "AI QA-ის კვლევა", "area": "PVM / თიმი", "priority": "high" },
         { "id": "M13", "task": "ზოგადი AI-ის კვლევა", "area": "PVM / თიმი", "priority": "high" },
-        { "id": "T5", "task": "Graph RAG — Before / After", "area": "თიმი", "priority": "high" },
+        { "id": "T5", "task": "Graph RAG — Before / After", "area": "თიმი", "priority": "high", "jira": "GB-1778" },
         { "id": "T7", "task": "თითოეული წევრი ატარებს 1 ექსპერიმენტს", "area": "თიმი", "priority": "high" },
         { "id": "P4", "task": "Frontend ავტომატიზაციის გაგრძელება", "area": "პროექტი", "priority": "high" },
         { "id": "P5", "task": "რეგრესიაში AI-ის გაზრდა", "area": "პროექტი", "priority": "high" },
