@@ -3,7 +3,7 @@
   "title": "QA AI — ერთწლიანი გეგმა",
   "version": "2.1",
   "range": "Q4 2026 — Q3 2027",
-  "updatedAt": "2026-10-14T19:28:00+04:00",
+  "updatedAt": "2026-10-14T19:29:09+04:00",
   "sourceUrl": "https://asterbit.slack.com/docs/T04ED18EWMA/F0C9Q2F525N",
   "pvm": {
     "title": "ASTERBIT — QA AI",
@@ -444,7 +444,8 @@
           "task": "Bug reporter-ის ფინანსებში გადატანა",
           "area": "პროექტი",
           "priority": "high",
-          "jira": "GB-1807"
+          "jira": "GB-1807",
+          "status": "In Progress"
         },
         {
           "id": "12",
@@ -475,7 +476,8 @@
           "task": "პრომპტინგის ავტო-გაუმჯობესება",
           "area": "პროექტი",
           "priority": "medium",
-          "jira": "GB-1785"
+          "jira": "GB-1785",
+          "status": "In Progress"
         },
         {
           "id": "17",
@@ -488,14 +490,16 @@
           "task": "AI project cleanup",
           "area": "პროექტი",
           "priority": "high",
-          "jira": "GB-1813"
+          "jira": "GB-1813",
+          "status": "Done"
         },
         {
           "id": "19",
           "task": "Gitignore ignores everything except needed files",
           "area": "პროექტი",
           "priority": "high",
-          "jira": "GB-1814"
+          "jira": "GB-1814",
+          "status": "Done"
         }
       ]
     },
@@ -521,7 +525,8 @@
           "task": "Graph RAG — Before / After",
           "area": "თიმი",
           "priority": "high",
-          "jira": "GB-1778"
+          "jira": "GB-1778",
+          "status": "In Progress"
         },
         {
           "id": "21",
@@ -577,7 +582,8 @@
           "task": "Playwright ტესტები Elasticsearch ლოგებიდან",
           "area": "პროექტი",
           "priority": "high",
-          "jira": "GB-1787"
+          "jira": "GB-1787",
+          "status": "ON HOLD"
         },
         {
           "id": "27",

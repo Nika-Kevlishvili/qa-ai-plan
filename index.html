@@ -401,6 +401,21 @@
     .pri.high { background: var(--high-bg); color: var(--high); }
     .pri.medium { background: var(--med-bg); color: var(--med); }
 
+    .st {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 0.12rem 0.55rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      white-space: nowrap;
+      background: #efeae1;
+      color: var(--muted);
+    }
+
+    .st.done { background: #e5f2ec; color: var(--teal); }
+    .st.progress { background: var(--med-bg); color: var(--med); }
+    .st.hold { background: var(--high-bg); color: var(--high); }
+
     .count { margin: 0.55rem 0 0; color: var(--muted); font-size: 0.92rem; }
 
     .risks { grid-template-columns: 1fr 1fr; }
@@ -752,7 +767,7 @@
       const table = document.createElement("table");
       const thead = document.createElement("thead");
       const headRow = document.createElement("tr");
-      ["ID", "ტასკი", "ნაწილი", "პრიორიტეტი"].forEach((label) => headRow.append(el("th", null, label)));
+      ["ID", "ტასკი", "ნაწილი", "პრიორიტეტი", "სტატუსი"].forEach((label) => headRow.append(el("th", null, label)));
       thead.append(headRow);
       const tbody = document.createElement("tbody");
       table.append(thead, tbody);
@@ -775,14 +790,14 @@
         const query = search.value.trim().toLowerCase();
         const rows = ((quarter && quarter.items) || []).filter((item) => {
           const priOk = priority === "all" || item.priority === priority;
-          const blob = (item.id + " " + item.task + " " + item.area + " " + (item.jira || "")).toLowerCase();
+          const blob = (item.id + " " + item.task + " " + item.area + " " + (item.jira || "") + " " + (item.status || "")).toLowerCase();
           return priOk && (!query || blob.includes(query));
         });
         tbody.replaceChildren();
         if (!rows.length) {
           const row = document.createElement("tr");
           const cell = el("td", null, "ამ ფილტრზე ტასკი არ არის.");
-          cell.colSpan = 4;
+          cell.colSpan = 5;
           row.append(cell);
           tbody.append(row);
         }
@@ -802,7 +817,13 @@
             link.textContent = item.jira;
             taskCell.append(link);
           }
-          row.append(el("td", "id", item.id || ""), taskCell, el("td", null, item.area || ""), priCell);
+          const statusCell = el("td");
+          if (item.status) {
+            const slug = item.status.toLowerCase().replace(/\s+/g, "");
+            const kind = slug === "done" ? "done" : slug === "inprogress" ? "progress" : slug === "onhold" ? "hold" : "";
+            statusCell.append(el("span", "st" + (kind ? " " + kind : ""), item.status));
+          }
+          row.append(el("td", "id", item.id || ""), taskCell, el("td", null, item.area || ""), priCell, statusCell);
           tbody.append(row);
         });
         count.textContent = rows.length + " ტასკი ჩანს";

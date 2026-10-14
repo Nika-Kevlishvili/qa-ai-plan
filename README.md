@@ -49,7 +49,7 @@ A new routine waits until the next scheduled time. Use Test on the routine to pu
 - `pvm.title`, `pvm.sections[]` with `title` and `paragraphs` (or legacy `text`), plus `pvm.achieving` and `pvm.howWeWork` (`title`, `items`). Copy that wording exactly.
 - `feedback`: summary dashboard plus findings taken from the interviews (`tools`, `savedTime`, `nextSteps`, `leadIdeas`). Do not paste the raw interview transcript.
 - `goals[]`: `n`, `text`, `tasks`, `quarter`
-- `quarters[]`: `id`, `label`, `current`, `items[]` with `id`, `task`, `area`, `priority` (`high` or `medium`), and optional `jira` (issue key such as `GB-1807`)
+- `quarters[]`: `id`, `label`, `current`, `items[]` with `id`, `task`, `area`, `priority` (`high` or `medium`), optional `jira` (issue key such as `GB-1807`), and optional `status` copied from that Jira issue
 - `risks[]`: `quarter`, `text`
 - `howWeWork[]`: strings
 
