@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#143f38">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23143f38'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-size='13' fill='%23f6f3ec' font-family='sans-serif' font-weight='700'%3EQA%3C/text%3E%3C/svg%3E">
+  <title>QA AI — ერთწლიანი გეგმა</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=Noto+Sans+Georgian:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f4f0e7;
+      --paper: #fffdf8;
+      --ink: #1b1914;
+      --muted: #5f584e;
+      --line: #e3dacb;
+      --teal: #143f38;
+      --teal-ink: #f6f3ec;
+      --high: #8c2f14;
+      --high-bg: #fde7de;
+      --med: #3c4b34;
+      --med-bg: #e6eee0;
+      --shadow: 0 18px 40px rgba(28, 25, 20, 0.06);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(20, 63, 56, 0.08), transparent 32rem),
+        var(--bg);
+      color: var(--ink);
+      font-family: "Noto Sans Georgian", Sylfaen, "Segoe UI", sans-serif;
+      font-size: 16px;
+      line-height: 1.55;
+    }
+
+    a { color: var(--teal); }
+
+    .skip {
+      position: absolute;
+      left: 1rem;
+      top: -4rem;
+      background: var(--ink);
+      color: white;
+      padding: 0.5rem 0.8rem;
+    }
+
+    .skip:focus { top: 1rem; }
+
+    .wrap {
+      width: min(1120px, calc(100% - 2rem));
+      margin: 0 auto;
+    }
+
+    header.site {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: rgba(244, 240, 231, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .bar {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: center;
+      min-height: 4rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: baseline;
+      gap: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .brand span {
+      color: var(--muted);
+      font-weight: 500;
+      font-size: 0.92rem;
+    }
+
+    nav {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.92rem;
+    }
+
+    nav a:hover { color: var(--ink); }
+
+    main { padding: 2.4rem 0 4rem; }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.4fr 0.8fr;
+      gap: 1.5rem;
+      align-items: stretch;
+    }
+
+    .eyebrow {
+      margin: 0 0 0.6rem;
+      color: var(--teal);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.2rem, 4vw, 3.6rem);
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+    }
+
+    .quote {
+      margin: 1.2rem 0 0;
+      padding-left: 1rem;
+      border-left: 3px solid var(--teal);
+      font-size: 1.15rem;
+    }
+
+    .meta-card, .panel, .goal, .risk, .rule {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+    }
+
+    .meta-card {
+      padding: 1.2rem 1.3rem;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.7rem;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.6rem;
+      line-height: 1;
+    }
+
+    .stat span, .updated, .muted { color: var(--muted); }
+
+    .updated { margin: 0; font-size: 0.92rem; }
+
+    .pvm, .goals, .how, .risks {
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    .pvm { grid-template-columns: repeat(3, 1fr); margin-top: 1rem; }
+
+    .panel { padding: 1rem 1.1rem 1.15rem; }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: 1.7rem;
+      letter-spacing: -0.03em;
+    }
+
+    .panel h2, .goal h3, .rule h3 { margin: 0; }
+
+    .lead { margin: 0; font-size: 1.02rem; }
+
+    .kicker {
+      margin: 0 0 0.35rem;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    section { margin-top: 2.6rem; }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: end;
+      margin-bottom: 0.9rem;
+    }
+
+    .section-head p { margin: 0.3rem 0 0; color: var(--muted); }
+
+    .goals { grid-template-columns: 1fr 1fr; }
+
+    .goal {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.8rem;
+      padding: 0.9rem 1rem;
+    }
+
+    .num {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: var(--teal);
+      color: var(--teal-ink);
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 0.85rem;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.45rem;
+    }
+
+    .tag, .pill {
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 0.75rem;
+      border-radius: 999px;
+      padding: 0.15rem 0.5rem;
+      background: #efeae1;
+      color: var(--ink);
+    }
+
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.8rem;
+    }
+
+    .tabs, .filters { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+
+    button, input {
+      font: inherit;
+      color: inherit;
+    }
+
+    .tabs button, .filters button {
+      border: 1px solid var(--line);
+      background: var(--paper);
+      border-radius: 999px;
+      padding: 0.45rem 0.8rem;
+      cursor: pointer;
+    }
+
+    .tabs button[aria-selected="true"], .filters button[aria-pressed="true"] {
+      background: var(--teal);
+      color: var(--teal-ink);
+      border-color: var(--teal);
+    }
+
+    input[type="search"] {
+      border: 1px solid var(--line);
+      background: var(--paper);
+      border-radius: 999px;
+      padding: 0.45rem 0.9rem;
+      min-width: min(100%, 16rem);
+    }
+
+    .table-wrap {
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--paper);
+    }
+
+    table { width: 100%; border-collapse: collapse; min-width: 640px; }
+
+    th, td {
+      text-align: left;
+      padding: 0.75rem 0.9rem;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    th {
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: #f7f3eb;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .id {
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .pri {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 0.12rem 0.55rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .pri.high { background: var(--high-bg); color: var(--high); }
+    .pri.medium { background: var(--med-bg); color: var(--med); }
+
+    .count { margin: 0.55rem 0 0; color: var(--muted); font-size: 0.92rem; }
+
+    .risks { grid-template-columns: 1fr 1fr; }
+
+    .risk { padding: 1rem 1.1rem; }
+
+    .risk strong { display: block; margin-bottom: 0.25rem; }
+
+    .how { grid-template-columns: 1fr 1fr; }
+
+    .rule {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.8rem;
+      padding: 0.95rem 1rem;
+    }
+
+    .rule .num { background: #efeae1; color: var(--ink); }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 1.4rem 0 2rem;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .error { padding: 1rem; background: var(--high-bg); border-radius: 12px; }
+
+    .empty { padding: 1rem; color: var(--muted); }
+
+    :focus-visible {
+      outline: 2px solid var(--teal);
+      outline-offset: 2px;
+    }
+
+    @media (max-width: 860px) {
+      .hero, .pvm, .goals, .risks, .how { grid-template-columns: 1fr; }
+      nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#content">შინაარსზე გადასვლა</a>
+  <header class="site">
+    <div class="wrap bar">
+      <div class="brand">QA AI <span id="version">გეგმა</span></div>
+      <nav aria-label="სექციები">
+        <a href="#pvm">PVM</a>
+        <a href="#goals">მიზნები</a>
+        <a href="#plan">გეგმა</a>
+        <a href="#risks">რისკები</a>
+        <a href="#work">როგორ ვმუშაობთ</a>
+      </nav>
+    </div>
+  </header>
+  <main id="content" class="wrap">
+    <p class="empty">გეგმა იტვირთება…</p>
+  </main>
+  <footer>
+    <div class="wrap" id="foot"></div>
+  </footer>
+  <script>
+    const PRIORITY = { high: "მაღალი", medium: "საშუალო" };
+
+    function el(tag, className, text) {
+      const node = document.createElement(tag);
+      if (className) node.className = className;
+      if (text != null) node.textContent = text;
+      return node;
+    }
+
+    function safeUrl(value) {
+      try {
+        const url = new URL(value);
+        return url.protocol === "https:" ? url.href : "";
+      } catch {
+        return "";
+      }
+    }
+
+    function formatWhen(value) {
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return value || "";
+      const parts = new Intl.DateTimeFormat("en-GB", {
+        timeZone: "Asia/Tbilisi",
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hourCycle: "h23"
+      }).formatToParts(date);
+      const pick = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+      return pick.day + "." + pick.month + "." + pick.year + ", " + pick.hour + ":" + pick.minute;
+    }
+
+    function uniqueCount(plan) {
+      const ids = new Set();
+      (plan.quarters || []).forEach((quarter) => {
+        (quarter.items || []).forEach((item) => ids.add(item.id));
+      });
+      return ids.size;
+    }
+
+    function render(plan) {
+      const main = document.querySelector("main");
+      const version = document.querySelector("#version");
+      version.textContent = plan.version ? "v" + plan.version : "გეგმა";
+      document.title = plan.title || "QA AI — ერთწლიანი გეგმა";
+
+      const hero = el("div", "hero");
+      const intro = el("div");
+      intro.append(
+        el("p", "eyebrow", plan.range || ""),
+        el("h1", null, plan.title || "QA AI")
+      );
+      const quote = el("p", "quote", plan.pvm && plan.pvm.vision);
+      intro.append(quote);
+
+      const meta = el("aside", "meta-card");
+      const stats = el("div", "stats");
+      [
+        [String((plan.goals || []).length), "მიზანი"],
+        [String(uniqueCount(plan)), "ტასკი"],
+        [String((plan.quarters || []).length), "კვარტალი"]
+      ].forEach(([value, label]) => {
+        const stat = el("div", "stat");
+        stat.append(el("strong", null, value), el("span", null, label));
+        stats.append(stat);
+      });
+      meta.append(stats, el("p", "updated", "ბოლო სინქი: " + formatWhen(plan.updatedAt)));
+      hero.append(intro, meta);
+
+      const pvm = el("section");
+      pvm.id = "pvm";
+      const pvmHead = el("div", "section-head");
+      pvmHead.append(el("h2", null, "PVM"));
+      const pvmGrid = el("div", "pvm");
+      [
+        ["Purpose", plan.pvm && plan.pvm.purpose],
+        ["Mission", plan.pvm && plan.pvm.mission],
+        ["Value", plan.pvm && plan.pvm.value]
+      ].forEach(([label, text]) => {
+        const card = el("article", "panel");
+        card.append(el("p", "kicker", label), el("p", "lead", text || ""));
+        pvmGrid.append(card);
+      });
+      pvm.append(pvmHead, pvmGrid);
+
+      const goals = el("section");
+      goals.id = "goals";
+      const goalsHead = el("div", "section-head");
+      const goalsTitle = el("div");
+      goalsTitle.append(el("h2", null, "10 მიზანი"), el("p", null, "ხედვის პუნქტები და მათი ტასკები."));
+      goalsHead.append(goalsTitle);
+      const goalGrid = el("div", "goals");
+      (plan.goals || []).forEach((goal) => {
+        const card = el("article", "goal");
+        const body = el("div");
+        body.append(el("h3", null, goal.text || ""));
+        const tags = el("div", "tags");
+        tags.append(el("span", "tag", goal.tasks || "—"), el("span", "tag", goal.quarter || "—"));
+        body.append(tags);
+        card.append(el("div", "num", String(goal.n ?? "")), body);
+        goalGrid.append(card);
+      });
+      goals.append(goalsHead, goalGrid);
+
+      const planSection = el("section");
+      planSection.id = "plan";
+      const planHead = el("div", "section-head");
+      const planTitle = el("div");
+      planTitle.append(el("h2", null, "სამუშაო გეგმა"), el("p", null, "კვარტლის ტასკები იმ რიგით, როგორც კანვასშია."));
+      planHead.append(planTitle);
+
+      const toolbar = el("div", "toolbar");
+      const tabs = el("div", "tabs");
+      tabs.setAttribute("role", "tablist");
+      const filters = el("div", "filters");
+      const search = el("input");
+      search.type = "search";
+      search.placeholder = "ძებნა";
+      search.setAttribute("aria-label", "ტასკის ძებნა");
+      const tableWrap = el("div", "table-wrap");
+      const table = document.createElement("table");
+      const thead = document.createElement("thead");
+      const headRow = document.createElement("tr");
+      ["ID", "ტასკი", "ნაწილი", "პრიორიტეტი"].forEach((label) => headRow.append(el("th", null, label)));
+      thead.append(headRow);
+      const tbody = document.createElement("tbody");
+      table.append(thead, tbody);
+      tableWrap.append(table);
+      const count = el("p", "count");
+
+      const quarters = plan.quarters || [];
+      let activeId = (quarters.find((quarter) => quarter.current) || quarters[0] || {}).id || "";
+      if (location.hash) {
+        const fromHash = quarters.find((quarter) => "#" + quarter.id === location.hash);
+        if (fromHash) activeId = fromHash.id;
+      }
+      let priority = "all";
+
+      function paint() {
+        tabs.querySelectorAll("button").forEach((button) => {
+          button.setAttribute("aria-selected", button.dataset.id === activeId ? "true" : "false");
+        });
+        const quarter = quarters.find((item) => item.id === activeId);
+        const query = search.value.trim().toLowerCase();
+        const rows = ((quarter && quarter.items) || []).filter((item) => {
+          const priOk = priority === "all" || item.priority === priority;
+          const blob = (item.id + " " + item.task + " " + item.area).toLowerCase();
+          return priOk && (!query || blob.includes(query));
+        });
+        tbody.replaceChildren();
+        if (!rows.length) {
+          const row = document.createElement("tr");
+          const cell = el("td", null, "ამ ფილტრზე ტასკი არ არის.");
+          cell.colSpan = 4;
+          row.append(cell);
+          tbody.append(row);
+        }
+        rows.forEach((item) => {
+          const row = document.createElement("tr");
+          const pri = el("span", "pri " + (item.priority || ""), PRIORITY[item.priority] || item.priority || "");
+          const priCell = el("td");
+          priCell.append(pri);
+          row.append(el("td", "id", item.id || ""), el("td", null, item.task || ""), el("td", null, item.area || ""), priCell);
+          tbody.append(row);
+        });
+        count.textContent = rows.length + " ტასკი ჩანს";
+      }
+
+      quarters.forEach((quarter) => {
+        const button = el("button", null, quarter.label + (quarter.current ? " · ახლა" : ""));
+        button.type = "button";
+        button.dataset.id = quarter.id;
+        button.setAttribute("role", "tab");
+        button.addEventListener("click", () => {
+          activeId = quarter.id;
+          history.replaceState(null, "", "#" + quarter.id);
+          paint();
+        });
+        tabs.append(button);
+      });
+
+      [
+        ["all", "ყველა"],
+        ["high", "მაღალი"],
+        ["medium", "საშუალო"]
+      ].forEach(([value, label]) => {
+        const button = el("button", null, label);
+        button.type = "button";
+        button.setAttribute("aria-pressed", value === "all" ? "true" : "false");
+        button.addEventListener("click", () => {
+          priority = value;
+          filters.querySelectorAll("button").forEach((item) => item.setAttribute("aria-pressed", "false"));
+          button.setAttribute("aria-pressed", "true");
+          paint();
+        });
+        filters.append(button);
+      });
+
+      search.addEventListener("input", paint);
+      toolbar.append(tabs, filters, search);
+      planSection.append(planHead, toolbar, tableWrap, count);
+
+      const risks = el("section");
+      risks.id = "risks";
+      const riskHead = el("div", "section-head");
+      riskHead.append(el("h2", null, "რისკები"));
+      const riskGrid = el("div", "risks");
+      (plan.risks || []).forEach((risk) => {
+        const card = el("article", "risk");
+        card.append(el("strong", null, risk.quarter || ""), el("p", null, risk.text || ""));
+        const paragraph = card.querySelector("p");
+        paragraph.style.margin = "0";
+        riskGrid.append(card);
+      });
+      risks.append(riskHead, riskGrid);
+
+      const work = el("section");
+      work.id = "work";
+      const workHead = el("div", "section-head");
+      workHead.append(el("h2", null, "How We Work"));
+      const workGrid = el("div", "how");
+      (plan.howWeWork || []).forEach((rule, index) => {
+        const card = el("article", "rule");
+        card.append(el("div", "num", String(index + 1)), el("h3", null, rule));
+        workGrid.append(card);
+      });
+      work.append(workHead, workGrid);
+
+      main.replaceChildren(hero, pvm, goals, planSection, risks, work);
+
+      const foot = document.querySelector("#foot");
+      foot.replaceChildren();
+      const source = safeUrl(plan.sourceUrl);
+      const line = el("p");
+      line.append(document.createTextNode("წყარო: Slack canvas. "));
+      if (source) {
+        const link = el("a", null, "კანვასის გახსნა");
+        link.href = source;
+        line.append(link);
+      }
+      foot.append(
+        line,
+        el("p", null, "ბმულის მქონეს ამ გვერდის წაკითხვა შეუძლია. საძიებო სისტემებს ინდექსაცია ეთხოვებათ არ გააკეთონ.")
+      );
+      paint();
+    }
+
+    async function main() {
+      const root = document.querySelector("main");
+      try {
+        const response = await fetch("plan.json?ts=" + Date.now(), { cache: "no-store" });
+        if (!response.ok) throw new Error(String(response.status));
+        render(await response.json());
+      } catch (error) {
+        root.replaceChildren(el("p", "error", "გეგმა ვერ ჩაიტვირთა. განაახლე გვერდი."));
+      }
+    }
+
+    main();
+  </script>
+</body>
+</html>
