@@ -3,7 +3,7 @@
   "title": "QA AI — ერთწლიანი გეგმა",
   "version": "2.1",
   "range": "Q4 2026 — Q3 2027",
-  "updatedAt": "2026-10-14T14:52:00+04:00",
+  "updatedAt": "2026-10-14T16:05:00+04:00",
   "sourceUrl": "https://asterbit.slack.com/docs/T04ED18EWMA/F0C9Q2F525N",
   "pvm": {
     "title": "PVM — Purpose, Vision, Mission",
@@ -155,12 +155,12 @@
         { "id": "P1", "task": "Frontend ავტომატიზაციის დაწყება", "area": "პროექტი", "priority": "high" },
         { "id": "P2", "task": "პროექტის დოკუმენტაცია", "area": "პროექტი", "priority": "high" },
         { "id": "P3", "task": "Bug Reporter-ის გატესტვა და გაუმჯობესება", "area": "პროექტი", "priority": "medium" },
-        { "id": "P8", "task": "Bug reporter-ის ფინანსებში გადატანა", "area": "პროექტი", "priority": "high" },
+        { "id": "P8", "task": "Bug reporter-ის ფინანსებში გადატანა", "area": "პროექტი", "priority": "high", "jira": "GB-1807" },
         { "id": "P6", "task": "ბაგების კლასიფიკაცია ტიპებით, პრევენციისთვის", "area": "პროექტი", "priority": "high" },
         { "id": "P17", "task": "AI-მ იცოდეს QA მუშაობის სქემა", "area": "პროექტი", "priority": "medium" },
         { "id": "P11", "task": "ტესტები ყოველასთვის გამოსაყენებელი", "area": "პროექტი", "priority": "medium" },
         { "id": "P14", "task": "ავტომატიზაციის ქეისების დაკარგვის აღმოფხვრა", "area": "პროექტი", "priority": "medium" },
-        { "id": "P16", "task": "პრომპტინგის ავტო-გაუმჯობესება", "area": "პროექტი", "priority": "medium" },
+        { "id": "P16", "task": "პრომპტინგის ავტო-გაუმჯობესება", "area": "პროექტი", "priority": "medium", "jira": "GB-1785" },
         { "id": "V4", "task": "განმეორებითი სამუშაოს რუკა", "area": "PVM / პროექტი", "priority": "high" }
       ]
     },
@@ -186,7 +186,7 @@
         { "id": "M1", "task": "AI QA-ის კვლევა", "area": "PVM / თიმი", "priority": "high" },
         { "id": "M13", "task": "ზოგადი AI-ის კვლევა", "area": "PVM / თიმი", "priority": "high" },
         { "id": "T9", "task": "პროექტებს შორის AI დონის გათანაბრება", "area": "თიმი", "priority": "high" },
-        { "id": "P9", "task": "Playwright ტესტები Elasticsearch ლოგებიდან", "area": "პროექტი", "priority": "high" },
+        { "id": "P9", "task": "Playwright ტესტები Elasticsearch ლოგებიდან", "area": "პროექტი", "priority": "high", "jira": "GB-1787" },
         { "id": "P10", "task": "დეშბორდი პოტენციური ბაგების წინასწარ დასაჭერად", "area": "პროექტი", "priority": "high" },
         { "id": "P12", "task": "ავტომატიზაციის ხარისხი — ტესტები აღარ ფუჭდება", "area": "პროექტი", "priority": "medium" }
       ]

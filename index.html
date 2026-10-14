@@ -347,10 +347,16 @@
 
     tr:last-child td { border-bottom: 0; }
 
-    .id {
+    .id, .jira {
       font-family: "IBM Plex Mono", ui-monospace, monospace;
       font-weight: 500;
       white-space: nowrap;
+    }
+
+    .jira {
+      display: inline-block;
+      margin-left: 0.55rem;
+      font-size: 0.82rem;
     }
 
     .pri {
@@ -687,7 +693,7 @@
         const query = search.value.trim().toLowerCase();
         const rows = ((quarter && quarter.items) || []).filter((item) => {
           const priOk = priority === "all" || item.priority === priority;
-          const blob = (item.id + " " + item.task + " " + item.area).toLowerCase();
+          const blob = (item.id + " " + item.task + " " + item.area + " " + (item.jira || "")).toLowerCase();
           return priOk && (!query || blob.includes(query));
         });
         tbody.replaceChildren();
@@ -703,7 +709,18 @@
           const pri = el("span", "pri " + (item.priority || ""), PRIORITY[item.priority] || item.priority || "");
           const priCell = el("td");
           priCell.append(pri);
-          row.append(el("td", "id", item.id || ""), el("td", null, item.task || ""), el("td", null, item.area || ""), priCell);
+          const taskCell = el("td");
+          taskCell.append(document.createTextNode(item.task || ""));
+          if (item.jira) {
+            const link = document.createElement("a");
+            link.className = "jira";
+            link.href = "https://oppa-support.atlassian.net/browse/" + item.jira;
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+            link.textContent = item.jira;
+            taskCell.append(link);
+          }
+          row.append(el("td", "id", item.id || ""), taskCell, el("td", null, item.area || ""), priCell);
           tbody.append(row);
         });
         count.textContent = rows.length + " ტასკი ჩანს";

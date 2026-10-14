@@ -31,7 +31,7 @@ Paste this instruction, and replace the schedule phrase before sending:
 Every <SCHEDULE>, read Slack canvas F0C9Q2F525N (QA AI annual plan).
 Compare it with plan.json in the qa-ai-plan repository (the site repository only, never cursor-project).
 If vision, purpose, mission, value, goals, quarters, risks, and how-we-work text are unchanged, stop. Do not commit.
-If the canvas text changed, update only plan.json. Keep schema 1 and the same JSON keys. Copy the canvas wording exactly. Do not rewrite, translate, or add tasks. Set updatedAt to the current time in Asia/Tbilisi. Set current: true on the quarter that contains today's date and false on the others.
+If the canvas text changed, update only plan.json. Keep schema 1 and the same JSON keys. Copy the canvas wording exactly. Do not rewrite, translate, or add tasks. Preserve any existing jira key on an item. Set updatedAt to the current time in Asia/Tbilisi. Set current: true on the quarter that contains today's date and false on the others.
 Commit and push main.
 Do not edit index.html, README.md, robots.txt, or .nojekyll.
 If the canvas cannot be read, do not push.
@@ -49,7 +49,7 @@ A new routine waits until the next scheduled time. Use Test on the routine to pu
 - `pvm.title`, `pvm.sections[]` with `title` and `text` (Vision, Purpose, Mission, Value Creation)
 - `feedback`: survey results shown on the Feedback tab. Copy that wording exactly.
 - `goals[]`: `n`, `text`, `tasks`, `quarter`
-- `quarters[]`: `id`, `label`, `current`, `items[]` with `id`, `task`, `area`, `priority` (`high` or `medium`)
+- `quarters[]`: `id`, `label`, `current`, `items[]` with `id`, `task`, `area`, `priority` (`high` or `medium`), and optional `jira` (issue key such as `GB-1807`)
 - `risks[]`: `quarter`, `text`
 - `howWeWork[]`: strings
 
