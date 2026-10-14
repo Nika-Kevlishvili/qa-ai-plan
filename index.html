@@ -495,6 +495,25 @@
       return pick.day + "." + pick.month + "." + pick.year + ", " + pick.hour + ":" + pick.minute;
     }
 
+    function oneDecimal(value) {
+      return (Math.round(value * 10) / 10).toFixed(1);
+    }
+
+    function bars(items, max, suffix) {
+      const list = el("div", "bars");
+      items.forEach((item) => {
+        const row = el("div", "bar-row");
+        const track = el("div", "track");
+        const fill = el("span", "fill");
+        const width = max > 0 ? Math.max(0, Math.min(100, (item.value / max) * 100)) : 0;
+        fill.style.width = width + "%";
+        track.append(fill);
+        row.append(el("span", null, item.label), track, el("span", "bar-value", item.text || String(item.value) + (suffix || "")));
+        list.append(row);
+      });
+      return list;
+    }
+
     function renderFeedback(feedback) {
       const page = el("div", "view");
       page.dataset.view = "feedback";
@@ -513,26 +532,126 @@
       title.append(intro, sourceLine);
       head.append(title);
 
-      page.append(head);
-      (feedback.interviews || []).forEach((interview) => {
-        const block = el("section", "interview");
-        block.append(el("h2", null, interview.title || ""));
-        (interview.sections || []).forEach((section) => {
-          const card = el("article", "panel");
-          card.append(el("h3", null, section.title || ""));
-          (section.blocks || []).forEach((item) => {
-            if (item.type === "question") card.append(el("p", "q-num", item.text || ""));
-            else if (item.type === "paragraph") card.append(el("p", "lead", item.text || ""));
-            else if (item.type === "list") {
-              const list = document.createElement("ul");
-              (item.items || []).forEach((entry) => list.append(el("li", null, entry)));
-              card.append(list);
-            }
-          });
-          block.append(card);
-        });
-        page.append(block);
+      const members = feedback.members || [];
+      const avgHours = members.length ? members.reduce((sum, member) => sum + Number(member.hours), 0) / members.length : 0;
+      const avgTrust = members.length ? members.reduce((sum, member) => sum + Number(member.trust), 0) / members.length : 0;
+      const stats = el("div", "stats four");
+      [
+        [oneDecimal(avgHours) + "სთ", "საშუალო ყოველდღიური AI გამოყენება"],
+        [oneDecimal(avgTrust) + "/5", "საშუალო ნდობის დონე"],
+        [members.length + "/" + members.length, "ყოველდღიური Cursor მომხმარებლები"],
+        [String(members.length), "გამოკითხული წევრები"]
+      ].forEach(([value, label]) => {
+        const stat = el("div", "stat");
+        stat.append(el("strong", null, value), el("span", null, label));
+        stats.append(stat);
       });
+
+      const trust = el("section");
+      trust.append(el("h3", null, "ნდობის დონე წევრების მიხედვით"));
+      trust.append(bars(members.map((member) => ({
+        label: member.name,
+        value: Number(member.trust),
+        text: String(member.trust)
+      })), 5, ""));
+
+      const hoursMax = members.reduce((max, member) => Math.max(max, Number(member.hours)), 0);
+      const hours = el("section");
+      hours.append(el("h3", null, "ყოველდღიური AI გამოყენება (საათები)"));
+      hours.append(bars(members.map((member) => ({
+        label: member.name,
+        value: Number(member.hours),
+        text: member.hours + "სთ"
+      })), hoursMax, ""));
+
+      const areas = feedback.areas || [];
+      const areaMax = areas.reduce((max, area) => Math.max(max, Number(area.count)), 0);
+      const areaSection = el("section");
+      areaSection.append(el("h3", null, "AI გამოყენება სფეროების მიხედვით (რამდენი წევრი იყენებს)"));
+      areaSection.append(bars(areas.map((area) => ({
+        label: area.label,
+        value: Number(area.count),
+        text: area.count + "/9"
+      })), areaMax || 9, ""));
+
+      const problems = el("section");
+      problems.append(el("h3", null, "ძირითადი პრობლემები"));
+      const tableWrap = el("div", "table-wrap");
+      const table = document.createElement("table");
+      const thead = document.createElement("thead");
+      const headRow = document.createElement("tr");
+      ["პრობლემა", "მოხსენიებები"].forEach((label) => headRow.append(el("th", null, label)));
+      thead.append(headRow);
+      const tbody = document.createElement("tbody");
+      (feedback.problems || []).forEach((problem) => {
+        const row = document.createElement("tr");
+        row.append(el("td", null, problem.issue || ""), el("td", null, problem.votes + "/9"));
+        tbody.append(row);
+      });
+      table.append(thead, tbody);
+      tableWrap.append(table);
+      problems.append(tableWrap);
+
+      const training = el("section");
+      training.append(el("h3", null, "ტრენინგის მოთხოვნები"));
+      const trainingGrid = el("div", "goals");
+      (feedback.training || []).forEach((need) => {
+        const card = el("article", "panel");
+        card.append(el("p", "lead", need));
+        trainingGrid.append(card);
+      });
+      training.append(trainingGrid);
+
+      const quotes = el("section");
+      quotes.append(el("h3", null, "თიმის მნიშვნელოვანი შეხედულებები"));
+      const quoteList = el("div", "risks");
+      (feedback.quotes || []).forEach((quote) => {
+        const card = el("article", "risk");
+        card.append(el("strong", null, quote.name || ""), el("p", "lead", quote.text || ""));
+        quoteList.append(card);
+      });
+      quotes.append(quoteList);
+
+      const tools = feedback.tools || [];
+      const toolsSection = el("section");
+      toolsSection.append(el("h3", null, "რომელ ინსტრუმენტს იყენებს"));
+      toolsSection.append(bars(tools.map((tool) => ({
+        label: tool.label,
+        value: Number(tool.count),
+        text: tool.count + "/9"
+      })), 9, ""));
+
+      const saved = feedback.savedTime || [];
+      const savedMax = saved.reduce((max, item) => Math.max(max, Number(item.count)), 0);
+      const savedSection = el("section");
+      savedSection.append(el("h3", null, "სად ზოგავს დროს"));
+      savedSection.append(bars(saved.map((item) => ({
+        label: item.label,
+        value: Number(item.count),
+        text: item.count + "/9"
+      })), savedMax || 9, ""));
+
+      const next = el("section");
+      next.append(el("h3", null, "შემდეგი ნაბიჯი ინტერვიუებიდან"));
+      const nextGrid = el("div", "goals");
+      (feedback.nextSteps || []).forEach((step) => {
+        const card = el("article", "panel");
+        card.append(el("p", "lead", step));
+        nextGrid.append(card);
+      });
+      next.append(nextGrid);
+
+      const leads = el("section");
+      leads.append(el("h3", null, "Chapter Lead რომ ყოფილიყო, პირველ რიგში"));
+      const leadList = el("div", "risks");
+      (feedback.leadIdeas || []).forEach((idea) => {
+        const card = el("article", "risk");
+        card.append(el("strong", null, idea.name || ""), el("p", "lead", idea.text || ""));
+        leadList.append(card);
+      });
+      leads.append(leadList);
+
+      page.append(head, stats, trust, hours, areaSection, toolsSection, savedSection, problems, training, quotes, next, leads);
       return page;
     }
 
