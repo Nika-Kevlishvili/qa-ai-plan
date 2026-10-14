@@ -47,7 +47,7 @@ A new routine waits until the next scheduled time. Use Test on the routine to pu
 
 - `title`, `version`, `range`, `updatedAt`, `sourceUrl`
 - `pvm.title`, `pvm.sections[]` with `title` and `paragraphs` (or legacy `text`), plus `pvm.achieving` and `pvm.howWeWork` (`title`, `items`). Copy that wording exactly.
-- `feedback`: survey results shown on the Feedback tab. Copy that wording exactly.
+- `feedback`: full interview document on the Feedback tab. `interviews[]` each have `title` and `sections[]` with `title` and `blocks` (`question`, `paragraph`, or `list`). Copy that wording exactly.
 - `goals[]`: `n`, `text`, `tasks`, `quarter`
 - `quarters[]`: `id`, `label`, `current`, `items[]` with `id`, `task`, `area`, `priority` (`high` or `medium`), and optional `jira` (issue key such as `GB-1807`)
 - `risks[]`: `quarter`, `text`
