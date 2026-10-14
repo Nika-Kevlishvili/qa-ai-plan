@@ -179,7 +179,23 @@
       gap: 0.8rem;
     }
 
-    .pvm { grid-template-columns: 1fr 1fr; margin-top: 1rem; }
+    .pvm { grid-template-columns: 1fr; margin-top: 1rem; }
+
+    .pvm h3 {
+      margin: 0 0 0.7rem;
+      font-size: 1.08rem;
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
+    .pvm .lead + .lead { margin-top: 0.75rem; }
+
+    .pvm ul {
+      margin: 0;
+      padding-left: 1.15rem;
+      display: grid;
+      gap: 0.55rem;
+    }
 
     .view[hidden] { display: none; }
 
@@ -622,12 +638,24 @@
 
       const pvmPage = el("div", "view");
       pvmPage.dataset.view = "pvm";
+      const pvmData = plan.pvm || {};
       const pvmHead = el("div", "section-head");
-      pvmHead.append(el("h2", null, (plan.pvm && plan.pvm.title) || "PVM — Purpose, Vision, Mission"));
+      pvmHead.append(el("h2", null, pvmData.title || "PVM — Purpose, Vision, Mission"));
       const pvmGrid = el("div", "pvm");
-      ((plan.pvm && plan.pvm.sections) || []).forEach((section) => {
+      (pvmData.sections || []).forEach((section) => {
         const card = el("article", "panel");
-        card.append(el("p", "kicker", section.title || ""), el("p", "lead", section.text || ""));
+        card.append(el("h3", null, section.title || ""));
+        const paragraphs = section.paragraphs || (section.text ? [section.text] : []);
+        paragraphs.forEach((text) => card.append(el("p", "lead", text)));
+        pvmGrid.append(card);
+      });
+      [pvmData.achieving, pvmData.howWeWork].forEach((block) => {
+        if (!block || !(block.items || []).length) return;
+        const card = el("article", "panel");
+        card.append(el("h3", null, block.title || ""));
+        const list = document.createElement("ul");
+        block.items.forEach((item) => list.append(el("li", null, item)));
+        card.append(list);
         pvmGrid.append(card);
       });
       pvmPage.append(pvmHead, pvmGrid);
