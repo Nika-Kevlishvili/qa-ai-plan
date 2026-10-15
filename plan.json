@@ -3,7 +3,7 @@
   "title": "QA AI — ერთწლიანი გეგმა",
   "version": "2.1",
   "range": "Q4 2026 — Q3 2027",
-  "updatedAt": "2026-10-15T14:25:00+04:00",
+  "updatedAt": "2026-10-15T14:42:00+04:00",
   "sourceUrl": "https://asterbit.slack.com/docs/T04ED18EWMA/F0C9Q2F525N",
   "pvm": {
     "title": "ASTERBIT — QA AI",
@@ -429,11 +429,13 @@
           "links": [
             {
               "key": "GB-1797",
-              "status": "In Progress"
+              "status": "In Progress",
+              "since": "2026-09-25"
             },
             {
               "key": "GB-1829",
-              "status": "In Progress"
+              "status": "In Progress",
+              "since": "2026-10-15"
             },
             {
               "key": "GB-1809",
@@ -519,7 +521,8 @@
           "area": "პროექტი",
           "priority": "medium",
           "jira": "GB-1775",
-          "status": "Done"
+          "status": "Done",
+          "done": "2026-08-14"
         },
         {
           "id": "11",
@@ -527,7 +530,8 @@
           "area": "პროექტი",
           "priority": "high",
           "jira": "GB-1807",
-          "status": "In Progress"
+          "status": "In Progress",
+          "since": "2026-10-05"
         },
         {
           "id": "12",
@@ -573,7 +577,8 @@
           "area": "პროექტი",
           "priority": "medium",
           "jira": "GB-1785",
-          "status": "In Progress"
+          "status": "In Progress",
+          "since": "2026-09-30"
         },
         {
           "id": "17",
@@ -587,7 +592,8 @@
           "area": "პროექტი",
           "priority": "high",
           "jira": "GB-1813",
-          "status": "Done"
+          "status": "Done",
+          "done": "2026-10-04"
         },
         {
           "id": "19",
@@ -595,7 +601,8 @@
           "area": "პროექტი",
           "priority": "high",
           "jira": "GB-1814",
-          "status": "Done"
+          "status": "Done",
+          "done": "2026-10-04"
         }
       ]
     },
@@ -672,7 +679,8 @@
           "links": [
             {
               "key": "GB-1778",
-              "status": "In Progress"
+              "status": "In Progress",
+              "since": "2026-07-28"
             },
             {
               "key": "GB-1862",
@@ -704,7 +712,8 @@
             },
             {
               "key": "GB-1799",
-              "status": "In Progress"
+              "status": "In Progress",
+              "since": "2026-10-02"
             },
             {
               "key": "GB-1796",

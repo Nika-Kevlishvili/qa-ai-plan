@@ -432,7 +432,25 @@
     .st.progress { background: var(--med-bg); color: var(--med); }
     .st.hold { background: var(--high-bg); color: var(--high); }
 
-    .count { margin: 0.55rem 0 0; color: var(--muted); font-size: 0.92rem; }
+    .activity { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+
+    .activity h3 { margin: 0; font-size: 1.15rem; }
+
+    .activity-list {
+      list-style: none;
+      margin: 0.9rem 0 0;
+      padding: 0;
+      display: grid;
+      gap: 0.85rem;
+    }
+
+    .activity-list li { display: grid; gap: 0.15rem; }
+
+    .activity-list .when {
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
 
     .plan-layout {
       display: grid;
@@ -539,7 +557,7 @@
     }
 
     @media (max-width: 860px) {
-      .hero, .pvm, .goals, .risks, .how, .stats.four, .plan-layout { grid-template-columns: 1fr; }
+      .hero, .pvm, .goals, .risks, .how, .stats.four, .plan-layout, .activity { grid-template-columns: 1fr; }
       .bar-row { grid-template-columns: 1fr; }
     }
   </style>
@@ -873,9 +891,16 @@
 
       function ticketLinks(item) {
         if (Array.isArray(item.links) && item.links.length) {
-          return item.links.map((link) => ({ key: link.key || link, status: link.status || "" }));
+          return item.links.map((link) => ({
+            key: link.key || link,
+            status: link.status || "",
+            since: link.since || "",
+            done: link.done || ""
+          }));
         }
-        if (item.jira) return [{ key: item.jira, status: item.status || "" }];
+        if (item.jira) {
+          return [{ key: item.jira, status: item.status || "", since: item.since || "", done: item.done || "" }];
+        }
         return [];
       }
 
@@ -1077,9 +1102,71 @@
       });
       work.append(workHead, workGrid);
 
+      function formatDay(iso) {
+        if (!iso || iso.length < 10) return "";
+        const [year, month, day] = iso.slice(0, 10).split("-");
+        return day + "." + month + "." + year;
+      }
+
+      function activitySection(sourceQuarters) {
+        const rows = [];
+        sourceQuarters.forEach((quarter) => {
+          (quarter.items || []).forEach((item) => {
+            ticketLinks(item).forEach((link) => {
+              const status = link.status || item.status || "";
+              if (status !== "In Progress" && status !== "Done") return;
+              rows.push({
+                key: link.key,
+                status,
+                since: link.since || item.since || "",
+                done: link.done || item.done || "",
+                task: item.task || "",
+                quarter: quarter.label || "",
+                id: item.id || ""
+              });
+            });
+          });
+        });
+        const section = el("section");
+        section.id = "activity";
+        const head = el("div", "section-head");
+        head.append(el("h2", null, "რა მიდის და რა დასრულდა"));
+        const grid = el("div", "activity");
+        grid.append(
+          activityColumn("ახლა In Progress-ში", rows.filter((row) => row.status === "In Progress"), "since", "In Progress-შია "),
+          activityColumn("როდის დასრულდა", rows.filter((row) => row.status === "Done"), "done", "დასრულდა ")
+        );
+        section.append(head, grid);
+        return section;
+      }
+
+      function activityColumn(title, list, field, prefix) {
+        const card = el("article", "panel");
+        card.append(el("h3", null, title));
+        const sorted = list.slice().sort((a, b) => (b[field] || "").localeCompare(a[field] || ""));
+        if (!sorted.length) {
+          card.append(el("p", "lead", "ამ სიაში ტასკი არ არის."));
+          return card;
+        }
+        const ul = document.createElement("ul");
+        ul.className = "activity-list";
+        sorted.forEach((row) => {
+          const li = document.createElement("li");
+          const when = formatDay(row[field]);
+          li.append(el("span", "when", when ? prefix + when : "თარიღი ჯირაში არ ჩანს"));
+          const line = el("div");
+          line.append(document.createTextNode(row.id + ". " + row.task + " "));
+          line.append(jiraLink(row.key));
+          li.append(line, el("span", "muted", row.quarter));
+          ul.append(li);
+        });
+        card.append(ul);
+        return card;
+      }
+
       const planPage = el("div", "view");
       planPage.dataset.view = "plan";
-      planPage.append(hero, goals, planSection, work);
+      planPage.append(hero, goals, activitySection(quarters), planSection, work);
 
       const feedbackPage = renderFeedback(plan.feedback || {});
       main.replaceChildren(planPage, pvmPage, feedbackPage);
