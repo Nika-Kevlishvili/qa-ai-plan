@@ -434,6 +434,77 @@
 
     .count { margin: 0.55rem 0 0; color: var(--muted); font-size: 0.92rem; }
 
+    .plan-layout {
+      display: grid;
+      grid-template-columns: 16.5rem 1fr;
+      gap: 0.8rem;
+      align-items: start;
+    }
+
+    .status-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .status-filter {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      border-radius: 14px;
+      padding: 0.7rem 0.75rem;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .status-filter.on {
+      border-color: var(--teal);
+      background: #e7f0ee;
+    }
+
+    .status-filter .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.4rem;
+      width: 100%;
+      border: 0;
+      background: transparent;
+      padding: 0;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 700;
+      text-align: left;
+      color: inherit;
+    }
+
+    .status-filter .count-num {
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .status-pris {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-top: 0.45rem;
+    }
+
+    .status-pris button {
+      border: 0;
+      border-radius: 999px;
+      padding: 0.12rem 0.5rem;
+      cursor: pointer;
+      font: inherit;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .status-pris button.high { background: var(--high-bg); color: var(--high); }
+    .status-pris button.medium { background: var(--med-bg); color: var(--med); }
+    .status-pris button[aria-pressed="true"] { outline: 2px solid var(--teal); }
+
     .risks { grid-template-columns: 1fr 1fr; }
 
     .risk { padding: 1rem 1.1rem; }
@@ -468,7 +539,7 @@
     }
 
     @media (max-width: 860px) {
-      .hero, .pvm, .goals, .risks, .how, .stats.four { grid-template-columns: 1fr; }
+      .hero, .pvm, .goals, .risks, .how, .stats.four, .plan-layout { grid-template-columns: 1fr; }
       .bar-row { grid-template-columns: 1fr; }
     }
   </style>
@@ -783,7 +854,7 @@
       const table = document.createElement("table");
       const thead = document.createElement("thead");
       const headRow = document.createElement("tr");
-      ["ID", "ტასკი", "ნაწილი", "პრიორიტეტი", "სტატუსი"].forEach((label) => headRow.append(el("th", null, label)));
+      ["ID", "ტასკი", "ნაწილი", "პრიორიტეტი"].forEach((label) => headRow.append(el("th", null, label)));
       thead.append(headRow);
       const tbody = document.createElement("tbody");
       table.append(thead, tbody);
@@ -797,6 +868,8 @@
         if (fromHash) activeId = fromHash.id;
       }
       let priority = "all";
+      let statusFilter = "all";
+      const STATUS_ORDER = ["In Progress", "Backlog", "Needs Clarification", "ON HOLD", "Done"];
 
       function ticketLinks(item) {
         if (Array.isArray(item.links) && item.links.length) {
@@ -822,23 +895,35 @@
         return el("span", "st" + (kind ? " " + kind : ""), status);
       }
 
+      function itemStatuses(item) {
+        const fromLinks = ticketLinks(item).map((link) => link.status).filter(Boolean);
+        if (fromLinks.length) return [...new Set(fromLinks)];
+        if (item.status) return [item.status];
+        return [];
+      }
+
       function paint() {
         tabs.querySelectorAll("button").forEach((button) => {
           button.setAttribute("aria-selected", button.dataset.id === activeId ? "true" : "false");
         });
         const quarter = quarters.find((item) => item.id === activeId);
+        const items = (quarter && quarter.items) || [];
+        paintStatuses(items);
         const query = search.value.trim().toLowerCase();
-        const rows = ((quarter && quarter.items) || []).filter((item) => {
+        const rows = items.filter((item) => {
           const priOk = priority === "all" || item.priority === priority;
+          const statuses = itemStatuses(item);
+          const statusOk = statusFilter === "all"
+            || (statusFilter === "none" ? statuses.length === 0 : statuses.includes(statusFilter));
           const linkBlob = ticketLinks(item).map((link) => link.key + " " + link.status).join(" ");
           const blob = (item.id + " " + item.task + " " + item.area + " " + linkBlob + " " + (item.status || "")).toLowerCase();
-          return priOk && (!query || blob.includes(query));
+          return priOk && statusOk && (!query || blob.includes(query));
         });
         tbody.replaceChildren();
         if (!rows.length) {
           const row = document.createElement("tr");
           const cell = el("td", null, "ამ ფილტრზე ტასკი არ არის.");
-          cell.colSpan = 5;
+          cell.colSpan = 4;
           row.append(cell);
           tbody.append(row);
         }
@@ -862,14 +947,82 @@
             });
             taskCell.append(list);
           }
-          const statusCell = el("td");
-          if (links.length <= 1 && (item.status || (links[0] && links[0].status))) {
-            statusCell.append(statusPill(item.status || links[0].status));
-          }
-          row.append(el("td", "id", item.id || ""), taskCell, el("td", null, item.area || ""), priCell, statusCell);
+          row.append(el("td", "id", item.id || ""), taskCell, el("td", null, item.area || ""), priCell);
           tbody.append(row);
         });
         count.textContent = rows.length + " ტასკი ჩანს";
+      }
+
+      function paintStatuses(items) {
+        const groups = new Map();
+        items.forEach((item) => {
+          const statuses = itemStatuses(item);
+          const keys = statuses.length ? statuses : ["none"];
+          keys.forEach((key) => {
+            if (!groups.has(key)) groups.set(key, []);
+            groups.get(key).push(item);
+          });
+        });
+        const ordered = [...groups.keys()].sort((a, b) => {
+          const ai = a === "none" ? 99 : STATUS_ORDER.indexOf(a);
+          const bi = b === "none" ? 99 : STATUS_ORDER.indexOf(b);
+          return (ai < 0 ? 50 : ai) - (bi < 0 ? 50 : bi);
+        });
+        statusCol.replaceChildren();
+        statusCol.append(statusButton("all", "ყველა სტატუსი", items.length, items));
+        ordered.forEach((key) => {
+          const label = key === "none" ? "სტატუსის გარეშე" : key;
+          statusCol.append(statusButton(key, label, groups.get(key).length, groups.get(key)));
+        });
+      }
+
+      function statusButton(key, label, total, groupItems) {
+        const card = el("div", "status-filter");
+        const button = el("button");
+        button.type = "button";
+        button.className = "top";
+        const pressed = statusFilter === key && priority === "all";
+        button.setAttribute("aria-pressed", pressed ? "true" : "false");
+        if (pressed) card.classList.add("on");
+        button.append(el("span", null, label), el("span", "count-num", String(total)));
+        card.append(button);
+        if (key !== "all") {
+          const pris = el("span", "status-pris");
+          ["high", "medium"].forEach((level) => {
+            const count = groupItems.filter((item) => item.priority === level).length;
+            if (!count) return;
+            const chipOn = statusFilter === key && priority === level;
+            const chip = el("button", level, PRIORITY[level] + " " + count);
+            chip.type = "button";
+            chip.setAttribute("aria-pressed", chipOn ? "true" : "false");
+            if (chipOn) card.classList.add("on");
+            chip.addEventListener("click", () => {
+              if (statusFilter === key && priority === level) {
+                priority = "all";
+              } else {
+                statusFilter = key;
+                priority = level;
+              }
+              syncPriorityButtons();
+              paint();
+            });
+            pris.append(chip);
+          });
+          if (pris.childElementCount) card.append(pris);
+        }
+        button.addEventListener("click", () => {
+          statusFilter = key;
+          priority = "all";
+          syncPriorityButtons();
+          paint();
+        });
+        return card;
+      }
+
+      function syncPriorityButtons() {
+        filters.querySelectorAll("button").forEach((button) => {
+          button.setAttribute("aria-pressed", button.dataset.priority === priority ? "true" : "false");
+        });
       }
 
       quarters.forEach((quarter) => {
@@ -879,6 +1032,9 @@
         button.setAttribute("role", "tab");
         button.addEventListener("click", () => {
           activeId = quarter.id;
+          statusFilter = "all";
+          priority = "all";
+          syncPriorityButtons();
           history.replaceState(null, "", "#" + quarter.id);
           paint();
         });
@@ -892,11 +1048,11 @@
       ].forEach(([value, label]) => {
         const button = el("button", null, label);
         button.type = "button";
+        button.dataset.priority = value;
         button.setAttribute("aria-pressed", value === "all" ? "true" : "false");
         button.addEventListener("click", () => {
           priority = value;
-          filters.querySelectorAll("button").forEach((item) => item.setAttribute("aria-pressed", "false"));
-          button.setAttribute("aria-pressed", "true");
+          syncPriorityButtons();
           paint();
         });
         filters.append(button);
@@ -904,21 +1060,10 @@
 
       search.addEventListener("input", paint);
       toolbar.append(tabs, filters, search);
-      planSection.append(planHead, toolbar, tableWrap, count);
-
-      const risks = el("section");
-      risks.id = "risks";
-      const riskHead = el("div", "section-head");
-      riskHead.append(el("h2", null, "რისკები"));
-      const riskGrid = el("div", "risks");
-      (plan.risks || []).forEach((risk) => {
-        const card = el("article", "risk");
-        card.append(el("strong", null, risk.quarter || ""), el("p", null, risk.text || ""));
-        const paragraph = card.querySelector("p");
-        paragraph.style.margin = "0";
-        riskGrid.append(card);
-      });
-      risks.append(riskHead, riskGrid);
+      const statusCol = el("div", "status-col");
+      const planLayout = el("div", "plan-layout");
+      planLayout.append(statusCol, tableWrap);
+      planSection.append(planHead, toolbar, planLayout, count);
 
       const work = el("section");
       work.id = "work";
@@ -934,7 +1079,7 @@
 
       const planPage = el("div", "view");
       planPage.dataset.view = "plan";
-      planPage.append(hero, goals, planSection, risks, work);
+      planPage.append(hero, goals, planSection, work);
 
       const feedbackPage = renderFeedback(plan.feedback || {});
       main.replaceChildren(planPage, pvmPage, feedbackPage);
