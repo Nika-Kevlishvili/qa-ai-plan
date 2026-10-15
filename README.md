@@ -41,6 +41,12 @@ Suggested schedule phrases: `hour`, or `10 minutes` if the weekly usage cost is 
 
 A new routine waits until the next scheduled time. Use Test on the routine to publish the first update immediately.
 
+## Jira status sync
+
+`.github/workflows/sync-jira-status.yml` runs every 5 minutes. It updates only the Jira status, `since`, and `done` fields of tickets already linked in `plan.json`. It does not move tickets between quarters or add new rows. The status column and the progress block read those fields, so the site updates after the workflow pushes `main`.
+
+Secrets `JIRA_EMAIL`, `JIRA_API_TOKEN`, and `JIRA_BASE_URL` live in the repository Actions secrets. The workflow can write to `main`.
+
 ## schema 1
 
 `plan.json` keys:
@@ -49,7 +55,7 @@ A new routine waits until the next scheduled time. Use Test on the routine to pu
 - `pvm.title`, `pvm.sections[]` with `title` and `paragraphs` (or legacy `text`), plus `pvm.achieving` and `pvm.howWeWork` (`title`, `items`). Copy that wording exactly.
 - `feedback`: summary dashboard plus findings taken from the interviews (`tools`, `savedTime`, `nextSteps`, `leadIdeas`). Do not paste the raw interview transcript.
 - `goals[]`: `n`, `text`, `tasks`, `quarter`
-- `quarters[]`: `id`, `label`, `current`, `items[]` with `id`, `task`, `area`, `priority` (`high` or `medium`), optional `jira` (one issue key such as `GB-1807`) plus optional `status`, or optional `links` (array of `{key, status}`) when several issues belong to the same row. Preserve both `jira` and `links` on routine updates.
+- `quarters[]`: `id`, `label`, `current`, `items[]` with `id`, `task`, `area`, `priority` (`high` or `medium`), optional `jira` (one issue key such as `GB-1807`) plus optional `status`, `since` (date the issue last entered In Progress), and `done` (date it was resolved). Optional `links` is an array of `{key, status, since, done}` when several issues belong to the same row. The Jira sync updates `status`, `since`, and `done` only. Preserve `jira` and `links` on other routine updates.
 - `risks[]`: `quarter`, `text`
 - `howWeWork[]`: strings
 
