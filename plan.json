@@ -3,7 +3,7 @@
   "title": "QA AI — ერთწლიანი გეგმა",
   "version": "2.1",
   "range": "Q4 2026 — Q3 2027",
-  "updatedAt": "2026-10-15T14:20:09+04:00",
+  "updatedAt": "2026-10-15T14:23:00+04:00",
   "sourceUrl": "https://asterbit.slack.com/docs/T04ED18EWMA/F0C9Q2F525N",
   "pvm": {
     "title": "ASTERBIT — QA AI",
@@ -594,14 +594,6 @@
           "priority": "high",
           "jira": "GB-1814",
           "status": "Done"
-        },
-        {
-          "id": "33",
-          "task": "Skill matrix აპი",
-          "area": "პროექტი",
-          "priority": "high",
-          "jira": "GB-1816",
-          "status": "In Progress"
         }
       ]
     },
