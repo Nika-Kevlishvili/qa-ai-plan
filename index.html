@@ -390,6 +390,22 @@
       font-size: 0.82rem;
     }
 
+    .jira-list {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.28rem;
+      margin-top: 0.4rem;
+    }
+
+    .jira-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .jira-list .jira { margin-left: 0; }
+
     .pri {
       display: inline-block;
       border-radius: 999px;
@@ -782,6 +798,30 @@
       }
       let priority = "all";
 
+      function ticketLinks(item) {
+        if (Array.isArray(item.links) && item.links.length) {
+          return item.links.map((link) => ({ key: link.key || link, status: link.status || "" }));
+        }
+        if (item.jira) return [{ key: item.jira, status: item.status || "" }];
+        return [];
+      }
+
+      function jiraLink(key) {
+        const link = document.createElement("a");
+        link.className = "jira";
+        link.href = "https://oppa-support.atlassian.net/browse/" + key;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = key;
+        return link;
+      }
+
+      function statusPill(status) {
+        const slug = String(status).toLowerCase().replace(/\s+/g, "");
+        const kind = slug === "done" ? "done" : slug === "inprogress" ? "progress" : slug === "onhold" ? "hold" : "";
+        return el("span", "st" + (kind ? " " + kind : ""), status);
+      }
+
       function paint() {
         tabs.querySelectorAll("button").forEach((button) => {
           button.setAttribute("aria-selected", button.dataset.id === activeId ? "true" : "false");
@@ -790,7 +830,8 @@
         const query = search.value.trim().toLowerCase();
         const rows = ((quarter && quarter.items) || []).filter((item) => {
           const priOk = priority === "all" || item.priority === priority;
-          const blob = (item.id + " " + item.task + " " + item.area + " " + (item.jira || "") + " " + (item.status || "")).toLowerCase();
+          const linkBlob = ticketLinks(item).map((link) => link.key + " " + link.status).join(" ");
+          const blob = (item.id + " " + item.task + " " + item.area + " " + linkBlob + " " + (item.status || "")).toLowerCase();
           return priOk && (!query || blob.includes(query));
         });
         tbody.replaceChildren();
@@ -808,20 +849,22 @@
           priCell.append(pri);
           const taskCell = el("td");
           taskCell.append(document.createTextNode(item.task || ""));
-          if (item.jira) {
-            const link = document.createElement("a");
-            link.className = "jira";
-            link.href = "https://oppa-support.atlassian.net/browse/" + item.jira;
-            link.target = "_blank";
-            link.rel = "noopener noreferrer";
-            link.textContent = item.jira;
-            taskCell.append(link);
+          const links = ticketLinks(item);
+          if (links.length === 1) {
+            taskCell.append(jiraLink(links[0].key));
+          } else if (links.length > 1) {
+            const list = el("div", "jira-list");
+            links.forEach((link) => {
+              const wrap = el("span", "jira-item");
+              wrap.append(jiraLink(link.key));
+              if (link.status) wrap.append(statusPill(link.status));
+              list.append(wrap);
+            });
+            taskCell.append(list);
           }
           const statusCell = el("td");
-          if (item.status) {
-            const slug = item.status.toLowerCase().replace(/\s+/g, "");
-            const kind = slug === "done" ? "done" : slug === "inprogress" ? "progress" : slug === "onhold" ? "hold" : "";
-            statusCell.append(el("span", "st" + (kind ? " " + kind : ""), item.status));
+          if (links.length <= 1 && (item.status || (links[0] && links[0].status))) {
+            statusCell.append(statusPill(item.status || links[0].status));
           }
           row.append(el("td", "id", item.id || ""), taskCell, el("td", null, item.area || ""), priCell, statusCell);
           tbody.append(row);
