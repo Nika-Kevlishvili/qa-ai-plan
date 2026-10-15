@@ -434,23 +434,62 @@
 
     .activity { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
 
-    .activity h3 { margin: 0; font-size: 1.15rem; }
+    .activity-card { padding: 1.05rem 1.15rem 1.15rem; }
+
+    .activity-card.progress { box-shadow: inset 0 3px 0 var(--med); }
+
+    .activity-card.done { box-shadow: inset 0 3px 0 var(--teal); }
+
+    .activity-card h3 { margin: 0; font-size: 1.2rem; letter-spacing: -0.02em; }
+
+    .activity-card .kicker { margin-top: 0.35rem; }
 
     .activity-list {
       list-style: none;
-      margin: 0.9rem 0 0;
+      margin: 0.85rem 0 0;
       padding: 0;
+    }
+
+    .activity-list li {
       display: grid;
-      gap: 0.85rem;
+      grid-template-columns: 6.6rem 1fr;
+      gap: 0.75rem;
+      align-items: start;
+      padding: 0.75rem 0;
+      border-top: 1px solid var(--line);
     }
 
-    .activity-list li { display: grid; gap: 0.15rem; }
+    .activity-list li:first-child { border-top: 0; padding-top: 0.15rem; }
 
-    .activity-list .when {
+    .when-badge {
+      display: grid;
+      gap: 0.05rem;
+      justify-items: center;
       font-family: "IBM Plex Mono", ui-monospace, monospace;
-      font-size: 0.8rem;
-      color: var(--muted);
+      border-radius: 12px;
+      padding: 0.35rem 0.4rem;
+      text-align: center;
     }
+
+    .when-date { font-size: 0.78rem; font-weight: 700; line-height: 1.2; }
+
+    .when-note { font-size: 0.68rem; font-weight: 500; line-height: 1.2; }
+
+    .activity-card.progress .when-badge { background: var(--med-bg); color: var(--med); }
+
+    .activity-card.done .when-badge { background: #e5f2ec; color: var(--teal); }
+
+    .activity-task { font-weight: 500; line-height: 1.35; }
+
+    .activity-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.35rem 0.55rem;
+      margin-top: 0.28rem;
+    }
+
+    .activity-meta .jira { margin-left: 0; }
 
     .plan-layout {
       display: grid;
@@ -1130,20 +1169,24 @@
         const section = el("section");
         section.id = "activity";
         const head = el("div", "section-head");
-        head.append(el("h2", null, "რა მიდის და რა დასრულდა"));
+        const title = el("div");
+        title.append(el("h2", null, "რა მიდის და რა დასრულდა"));
+        title.append(el("p", null, "თარიღი ჯირაში სტატუსის შეცვლის დღეა."));
+        head.append(title);
         const grid = el("div", "activity");
         grid.append(
-          activityColumn("ახლა In Progress-ში", rows.filter((row) => row.status === "In Progress"), "since", "In Progress-შია "),
-          activityColumn("როდის დასრულდა", rows.filter((row) => row.status === "Done"), "done", "დასრულდა ")
+          activityColumn("progress", "ახლა In Progress-ში", rows.filter((row) => row.status === "In Progress"), "since", "დან"),
+          activityColumn("done", "როდის დასრულდა", rows.filter((row) => row.status === "Done"), "done", "დასრულდა")
         );
         section.append(head, grid);
         return section;
       }
 
-      function activityColumn(title, list, field, prefix) {
-        const card = el("article", "panel");
-        card.append(el("h3", null, title));
+      function activityColumn(kind, title, list, field, prefix) {
+        const card = el("article", "panel activity-card " + kind);
         const sorted = list.slice().sort((a, b) => (b[field] || "").localeCompare(a[field] || ""));
+        const heading = el("h3", null, title);
+        card.append(heading, el("p", "kicker", sorted.length + " ტასკი"));
         if (!sorted.length) {
           card.append(el("p", "lead", "ამ სიაში ტასკი არ არის."));
           return card;
@@ -1153,11 +1196,15 @@
         sorted.forEach((row) => {
           const li = document.createElement("li");
           const when = formatDay(row[field]);
-          li.append(el("span", "when", when ? prefix + when : "თარიღი ჯირაში არ ჩანს"));
-          const line = el("div");
-          line.append(document.createTextNode(row.id + ". " + row.task + " "));
-          line.append(jiraLink(row.key));
-          li.append(line, el("span", "muted", row.quarter));
+          const badge = el("span", "when-badge");
+          badge.append(el("span", "when-date", when || "—"), el("span", "when-note", when ? prefix : "თარიღი არაა"));
+          li.append(badge);
+          const body = el("div");
+          body.append(el("div", "activity-task", row.id + ". " + row.task));
+          const meta = el("div", "activity-meta");
+          meta.append(jiraLink(row.key), el("span", "tag", row.quarter));
+          body.append(meta);
+          li.append(body);
           ul.append(li);
         });
         card.append(ul);
@@ -1166,7 +1213,7 @@
 
       const planPage = el("div", "view");
       planPage.dataset.view = "plan";
-      planPage.append(hero, goals, activitySection(quarters), planSection, work);
+      planPage.append(hero, goals, planSection, activitySection(quarters), work);
 
       const feedbackPage = renderFeedback(plan.feedback || {});
       main.replaceChildren(planPage, pvmPage, feedbackPage);
