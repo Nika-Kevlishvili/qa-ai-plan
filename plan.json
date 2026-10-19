@@ -3,7 +3,7 @@
   "title": "QA AI — ერთწლიანი გეგმა",
   "version": "2.1",
   "range": "Q4 2026 — Q3 2027",
-  "updatedAt": "2026-10-15T19:32:04+04:00",
+  "updatedAt": "2026-10-19T11:50:00+04:00",
   "sourceUrl": "https://asterbit.slack.com/docs/T04ED18EWMA/F0C9Q2F525N",
   "pvm": {
     "title": "ASTERBIT — QA AI",
@@ -603,6 +603,14 @@
           "jira": "GB-1814",
           "status": "Done",
           "done": "2026-10-04"
+        },
+        {
+          "id": "20",
+          "task": "The AI attaches the main test cases report to the task using a command",
+          "area": "პროექტი",
+          "priority": "medium",
+          "jira": "GB-1866",
+          "status": "Backlog"
         }
       ]
     },
