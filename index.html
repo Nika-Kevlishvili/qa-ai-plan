@@ -416,6 +416,7 @@
 
     .pri.high { background: var(--high-bg); color: var(--high); }
     .pri.medium { background: var(--med-bg); color: var(--med); }
+    .pri.low { background: #efeae1; color: var(--muted); }
 
     .st {
       display: inline-block;
@@ -620,7 +621,7 @@
     <div class="wrap" id="foot"></div>
   </footer>
   <script>
-    const PRIORITY = { high: "მაღალი", medium: "საშუალო" };
+    const PRIORITY = { high: "მაღალი", medium: "საშუალო", low: "დაბალი" };
 
     function el(tag, className, text) {
       const node = document.createElement(tag);
@@ -1055,7 +1056,7 @@
         card.append(button);
         if (key !== "all") {
           const pris = el("span", "status-pris");
-          ["high", "medium"].forEach((level) => {
+          ["high", "medium", "low"].forEach((level) => {
             const count = groupItems.filter((item) => item.priority === level).length;
             if (!count) return;
             const chipOn = statusFilter === key && priority === level;
@@ -1111,7 +1112,8 @@
       [
         ["all", "ყველა"],
         ["high", "მაღალი"],
-        ["medium", "საშუალო"]
+        ["medium", "საშუალო"],
+        ["low", "დაბალი"]
       ].forEach(([value, label]) => {
         const button = el("button", null, label);
         button.type = "button";

@@ -52,7 +52,7 @@ async function jira(path) {
 }
 
 async function loadIssue(key) {
-  const issue = await jira(`/rest/api/3/issue/${encodeURIComponent(key)}?fields=status,resolutiondate&expand=changelog`);
+  const issue = await jira(`/rest/api/3/issue/${encodeURIComponent(key)}?fields=status,resolutiondate,priority&expand=changelog`);
   const histories = [...(issue.changelog?.histories || [])];
   let startAt = histories.length;
   const total = issue.changelog?.total || histories.length;
@@ -78,7 +78,48 @@ async function loadIssue(key) {
   let done = "";
   if (status === "In Progress") since = tbilisiDate(latestTo("In Progress"));
   if (status === "Done") done = tbilisiDate(issue.fields?.resolutiondate) || tbilisiDate(latestTo("Done"));
-  return { status, since, done };
+  return { status, since, done, priority: issue.fields?.priority?.name || "" };
+}
+
+const PRIORITY_RANK = { Urgent: "high", Highest: "high", High: "high", Medium: "medium", Low: "low", Lowest: "low" };
+const PRIORITY_ORDER = { high: 3, medium: 2, low: 1 };
+
+function planPriority(name) {
+  return PRIORITY_RANK[name] || "";
+}
+
+function applyRowPriority(item, issues) {
+  const keys = Array.isArray(item.links) && item.links.length
+    ? item.links.map((link) => link.key).filter(Boolean)
+    : (item.jira ? [item.jira] : []);
+  if (!keys.length) return;
+  let best = "";
+  let bestRank = 0;
+  for (const key of keys) {
+    const mapped = planPriority(issues.get(key)?.priority);
+    const rank = PRIORITY_ORDER[mapped] || 0;
+    if (rank > bestRank) {
+      best = mapped;
+      bestRank = rank;
+    }
+  }
+  if (best) item.priority = best;
+}
+
+function planStamp(plan) {
+  const lines = [];
+  for (const quarter of plan.quarters || []) {
+    for (const item of quarter.items || []) {
+      const bits = [quarter.id, item.id, item.priority || ""];
+      if (Array.isArray(item.links) && item.links.length) {
+        for (const link of item.links) if (link.key) bits.push(stamp(link));
+      } else if (item.jira) {
+        bits.push(stamp(item));
+      }
+      lines.push(bits.join("|"));
+    }
+  }
+  return lines.join("\n");
 }
 
 function linkedTargets(plan) {
@@ -118,7 +159,7 @@ async function mapPool(items, limit, worker) {
 const plan = JSON.parse(fs.readFileSync(planPath, "utf8"));
 const targets = linkedTargets(plan);
 const keys = [...new Set(targets.map((target) => target.key || target.jira))];
-const before = targets.map(stamp).join("\n");
+const before = planStamp(plan);
 const issues = await mapPool(keys, 6, loadIssue);
 
 for (const target of targets) {
@@ -140,7 +181,11 @@ for (const target of targets) {
   }
 }
 
-const after = linkedTargets(plan).map(stamp).join("\n");
+for (const quarter of plan.quarters || []) {
+  for (const item of quarter.items || []) applyRowPriority(item, issues);
+}
+
+const after = planStamp(plan);
 if (before === after) {
   console.log(`unchanged ${keys.length} tickets`);
   process.exit(0);

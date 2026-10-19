@@ -3,7 +3,7 @@
   "title": "QA AI — ერთწლიანი გეგმა",
   "version": "2.1",
   "range": "Q4 2026 — Q3 2027",
-  "updatedAt": "2026-10-19T12:16:28+04:00",
+  "updatedAt": "2026-10-19T13:11:48+04:00",
   "sourceUrl": "https://asterbit.slack.com/docs/T04ED18EWMA/F0C9Q2F525N",
   "pvm": {
     "title": "ASTERBIT — QA AI",
@@ -425,7 +425,7 @@
           "id": "5",
           "task": "AI-სთან კომუნიკაცია და სწორი პრომპტინგი",
           "area": "თიმი",
-          "priority": "medium",
+          "priority": "high",
           "links": [
             {
               "key": "GB-1797",
@@ -471,7 +471,7 @@
           "id": "7",
           "task": "ზოგადი AI-ის კვლევა",
           "area": "PVM / თიმი",
-          "priority": "high",
+          "priority": "medium",
           "links": [
             {
               "key": "GB-1820",
@@ -511,7 +511,7 @@
           "id": "9",
           "task": "პროექტის დოკუმენტაცია",
           "area": "პროექტი",
-          "priority": "high",
+          "priority": "medium",
           "jira": "GB-1812",
           "status": "Backlog"
         },
@@ -519,7 +519,7 @@
           "id": "10",
           "task": "Bug Reporter-ის გატესტვა და გაუმჯობესება",
           "area": "პროექტი",
-          "priority": "medium",
+          "priority": "high",
           "jira": "GB-1775",
           "status": "Done",
           "done": "2026-08-14"
@@ -537,7 +537,7 @@
           "id": "12",
           "task": "ბაგების კლასიფიკაცია ტიპებით, პრევენციისთვის",
           "area": "პროექტი",
-          "priority": "high",
+          "priority": "medium",
           "jira": "GB-1843",
           "status": "Backlog"
         },
@@ -575,7 +575,7 @@
           "id": "16",
           "task": "პრომპტინგის ავტო-გაუმჯობესება",
           "area": "პროექტი",
-          "priority": "medium",
+          "priority": "high",
           "jira": "GB-1785",
           "status": "In Progress",
           "since": "2026-09-30"
@@ -608,7 +608,7 @@
           "id": "20",
           "task": "The AI attaches the main test cases report to the task using a command",
           "area": "პროექტი",
-          "priority": "medium",
+          "priority": "high",
           "jira": "GB-1866",
           "status": "In Progress",
           "since": "2026-10-19"
@@ -624,7 +624,7 @@
           "id": "6",
           "task": "AI QA-ის კვლევა",
           "area": "PVM / თიმი",
-          "priority": "high",
+          "priority": "medium",
           "links": [
             {
               "key": "GB-1839",
@@ -644,7 +644,7 @@
           "id": "7",
           "task": "ზოგადი AI-ის კვლევა",
           "area": "PVM / თიმი",
-          "priority": "high",
+          "priority": "medium",
           "links": [
             {
               "key": "GB-1826",
@@ -740,7 +740,7 @@
           "id": "34",
           "task": "Agent harness და SDK",
           "area": "პროექტი",
-          "priority": "high",
+          "priority": "medium",
           "links": [
             {
               "key": "GB-1831",
@@ -788,7 +788,7 @@
           "id": "39",
           "task": "NotebookLM QA ცოდნისთვის",
           "area": "PVM / პროექტი",
-          "priority": "high",
+          "priority": "medium",
           "jira": "GB-1845",
           "status": "Backlog"
         },
@@ -796,7 +796,7 @@
           "id": "40",
           "task": "კონტექსტის საცავი: ADR და Qdrant",
           "area": "პროექტი",
-          "priority": "high",
+          "priority": "medium",
           "jira": "GB-1853",
           "status": "Backlog"
         },
@@ -825,7 +825,7 @@
           "id": "7",
           "task": "ზოგადი AI-ის კვლევა",
           "area": "PVM / თიმი",
-          "priority": "high",
+          "priority": "medium",
           "links": [
             {
               "key": "GB-1850",
@@ -867,7 +867,7 @@
           "id": "27",
           "task": "დეშბორდი პოტენციური ბაგების წინასწარ დასაჭერად",
           "area": "პროექტი",
-          "priority": "high",
+          "priority": "medium",
           "links": [
             {
               "key": "GB-1792",
@@ -891,7 +891,7 @@
           "id": "42",
           "task": "მზა სქილების გადატანა toolkit-ში",
           "area": "პროექტი",
-          "priority": "high",
+          "priority": "medium",
           "links": [
             {
               "key": "GB-1848",
@@ -954,7 +954,7 @@
           "id": "31",
           "task": "AI შუამავალი ყველა ტასკზე",
           "area": "პროექტი",
-          "priority": "high",
+          "priority": "medium",
           "jira": "GB-1793",
           "status": "Backlog"
         },
@@ -962,7 +962,7 @@
           "id": "32",
           "task": "მომავალი წლის გეგმა",
           "area": "PVM / პროექტი",
-          "priority": "high",
+          "priority": "medium",
           "links": [
             {
               "key": "GB-1859",
