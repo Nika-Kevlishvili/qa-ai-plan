@@ -1000,7 +1000,10 @@
           taskCell.append(document.createTextNode(item.task || ""));
           const links = ticketLinks(item);
           if (links.length === 1) {
-            taskCell.append(jiraLink(links[0].key));
+            const wrap = el("span", "jira-item");
+            wrap.append(jiraLink(links[0].key));
+            if (links[0].status) wrap.append(statusPill(links[0].status));
+            taskCell.append(wrap);
           } else if (links.length > 1) {
             const list = el("div", "jira-list");
             links.forEach((link) => {
