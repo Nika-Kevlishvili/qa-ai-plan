@@ -3,7 +3,7 @@
   "title": "QA AI — ერთწლიანი გეგმა",
   "version": "2.1",
   "range": "Q4 2026 — Q3 2027",
-  "updatedAt": "2026-10-29T13:25:07+04:00",
+  "updatedAt": "2026-10-29T17:30:07+04:00",
   "sourceUrl": "https://asterbit.slack.com/docs/T04ED18EWMA/F0C9Q2F525N",
   "pvm": {
     "title": "ASTERBIT — QA AI",
@@ -698,7 +698,8 @@
             },
             {
               "key": "GB-1862",
-              "status": "Backlog"
+              "status": "In Progress",
+              "since": "2026-10-29"
             }
           ]
         },
