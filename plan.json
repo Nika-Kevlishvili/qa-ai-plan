@@ -3,7 +3,7 @@
   "title": "QA AI — ერთწლიანი გეგმა",
   "version": "2.1",
   "range": "Q4 2026 — Q3 2027",
-  "updatedAt": "2026-11-10T17:40:05+04:00",
+  "updatedAt": "2026-11-11T10:15:04+04:00",
   "sourceUrl": "https://asterbit.slack.com/docs/T04ED18EWMA/F0C9Q2F525N",
   "pvm": {
     "title": "ASTERBIT — QA AI",
@@ -765,7 +765,7 @@
           "area": "პროექტი",
           "priority": "medium",
           "jira": "GB-1863",
-          "status": "Backlog"
+          "status": "Invalid Bug/Won't Do"
         },
         {
           "id": "36",
@@ -844,8 +844,8 @@
             },
             {
               "key": "GB-1855",
-              "status": "Done",
-              "done": "2026-11-06"
+              "status": "In Progress",
+              "since": "2026-11-11"
             },
             {
               "key": "GB-1856",
