@@ -492,6 +492,42 @@
 
     .activity-meta .jira { margin-left: 0; }
 
+    .who { color: var(--muted); font-size: 0.82rem; }
+
+    .activity-filter {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: end;
+      gap: 0.7rem 1rem;
+      margin: 0 0 0.85rem;
+    }
+
+    .activity-filter label {
+      display: grid;
+      gap: 0.25rem;
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    .activity-filter input[type="date"] {
+      border: 1px solid var(--line);
+      background: var(--paper);
+      border-radius: 10px;
+      padding: 0.4rem 0.55rem;
+      color: var(--ink);
+    }
+
+    .activity-filter button {
+      border: 1px solid var(--line);
+      background: var(--paper);
+      border-radius: 999px;
+      padding: 0.45rem 0.8rem;
+      cursor: pointer;
+    }
+
+    .activity-filter .note { margin: 0; align-self: center; color: var(--muted); font-size: 0.88rem; }
+
     .plan-layout {
       display: grid;
       grid-template-columns: 16.5rem 1fr;
@@ -935,11 +971,12 @@
             key: link.key || link,
             status: link.status || "",
             since: link.since || "",
-            done: link.done || ""
+            done: link.done || "",
+            assignee: link.assignee || ""
           }));
         }
         if (item.jira) {
-          return [{ key: item.jira, status: item.status || "", since: item.since || "", done: item.done || "" }];
+          return [{ key: item.jira, status: item.status || "", since: item.since || "", done: item.done || "", assignee: item.assignee || "" }];
         }
         return [];
       }
@@ -980,7 +1017,7 @@
           const statuses = itemStatuses(item);
           const statusOk = statusFilter === "all"
             || (statusFilter === "none" ? statuses.length === 0 : statuses.includes(statusFilter));
-          const linkBlob = ticketLinks(item).map((link) => link.key + " " + link.status).join(" ");
+          const linkBlob = ticketLinks(item).map((link) => link.key + " " + link.status + " " + link.assignee).join(" ");
           const blob = (item.id + " " + item.task + " " + item.area + " " + linkBlob + " " + (item.status || "")).toLowerCase();
           return priOk && statusOk && (!query || blob.includes(query));
         });
@@ -1004,6 +1041,7 @@
             const wrap = el("span", "jira-item");
             wrap.append(jiraLink(links[0].key));
             if (links[0].status) wrap.append(statusPill(links[0].status));
+            wrap.append(el("span", "who", links[0].assignee || "არავინ"));
             taskCell.append(wrap);
           } else if (links.length > 1) {
             const list = el("div", "jira-list");
@@ -1011,6 +1049,7 @@
               const wrap = el("span", "jira-item");
               wrap.append(jiraLink(link.key));
               if (link.status) wrap.append(statusPill(link.status));
+              wrap.append(el("span", "who", link.assignee || "არავინ"));
               list.append(wrap);
             });
             taskCell.append(list);
@@ -1166,7 +1205,8 @@
                 done: link.done || item.done || "",
                 task: item.task || "",
                 quarter: quarter.label || "",
-                id: item.id || ""
+                id: item.id || "",
+                assignee: link.assignee || item.assignee || ""
               });
             });
           });
@@ -1176,24 +1216,73 @@
         const head = el("div", "section-head");
         const title = el("div");
         title.append(el("h2", null, "რა მიდის და რა დასრულდა"));
-        title.append(el("p", null, "თარიღი ჯირაში სტატუსის შეცვლის დღეა."));
+        title.append(el("p", null, "თარიღი ჯირაში სტატუსის შეცვლის დღეა. შუალედი ამ დღეებს ფილტრავს."));
         head.append(title);
+        const filter = el("form", "activity-filter");
+        filter.addEventListener("submit", (event) => event.preventDefault());
+        const from = document.createElement("input");
+        from.type = "date";
+        from.id = "activity-from";
+        const fromLabel = el("label", null, "თარიღიდან");
+        fromLabel.htmlFor = from.id;
+        fromLabel.append(from);
+        const to = document.createElement("input");
+        to.type = "date";
+        to.id = "activity-to";
+        const toLabel = el("label", null, "თარიღამდე");
+        toLabel.htmlFor = to.id;
+        toLabel.append(to);
+        const clear = el("button", null, "გასუფთავება");
+        clear.type = "button";
+        const note = el("p", "note", "ყველა ტასკი ჩანს.");
+        filter.append(fromLabel, toLabel, clear, note);
         const grid = el("div", "activity");
-        grid.append(
-          activityColumn("progress", "ახლა In Progress-ში", rows.filter((row) => row.status === "In Progress"), "since", "დან"),
-          activityColumn("done", "როდის დასრულდა", rows.filter((row) => row.status === "Done"), "done", "დასრულდა")
-        );
-        section.append(head, grid);
+        function dayInRange(day, start, end) {
+          if (!day) return false;
+          if (start && day < start) return false;
+          if (end && day > end) return false;
+          return true;
+        }
+        function paintActivity() {
+          const start = from.value;
+          const end = to.value;
+          const active = Boolean(start || end);
+          const invalid = Boolean(start && end && start > end);
+          const visible = rows.filter((row) => {
+            if (!active || invalid) return !active && !invalid;
+            const day = row.status === "Done" ? row.done : row.since;
+            return dayInRange(String(day || "").slice(0, 10), start, end);
+          });
+          const emptyText = active ? "ამ თარიღებში ტასკი არ არის." : "ამ სიაში ტასკი არ არის.";
+          grid.replaceChildren(
+            activityColumn("progress", "ახლა In Progress-ში", visible.filter((row) => row.status === "In Progress"), "since", "დან", emptyText),
+            activityColumn("done", "როდის დასრულდა", visible.filter((row) => row.status === "Done"), "done", "დასრულდა", emptyText)
+          );
+          if (invalid) note.textContent = "საწყისი თარიღი ბოლო თარიღზე გვიანაა.";
+          else if (!active) note.textContent = "ყველა ტასკი ჩანს.";
+          else note.textContent = visible.length + " ტასკი ამ თარიღებში.";
+        }
+        from.addEventListener("input", paintActivity);
+        to.addEventListener("input", paintActivity);
+        from.addEventListener("change", paintActivity);
+        to.addEventListener("change", paintActivity);
+        clear.addEventListener("click", () => {
+          from.value = "";
+          to.value = "";
+          paintActivity();
+        });
+        section.append(head, filter, grid);
+        paintActivity();
         return section;
       }
 
-      function activityColumn(kind, title, list, field, prefix) {
+      function activityColumn(kind, title, list, field, prefix, emptyText) {
         const card = el("article", "panel activity-card " + kind);
         const sorted = list.slice().sort((a, b) => (b[field] || "").localeCompare(a[field] || ""));
         const heading = el("h3", null, title);
         card.append(heading, el("p", "kicker", sorted.length + " ტასკი"));
         if (!sorted.length) {
-          card.append(el("p", "lead", "ამ სიაში ტასკი არ არის."));
+          card.append(el("p", "lead", emptyText || "ამ სიაში ტასკი არ არის."));
           return card;
         }
         const ul = document.createElement("ul");
@@ -1207,7 +1296,7 @@
           const body = el("div");
           body.append(el("div", "activity-task", row.id + ". " + row.task));
           const meta = el("div", "activity-meta");
-          meta.append(jiraLink(row.key), el("span", "tag", row.quarter));
+          meta.append(jiraLink(row.key), el("span", "who", row.assignee || "არავინ"), el("span", "tag", row.quarter));
           body.append(meta);
           li.append(body);
           ul.append(li);

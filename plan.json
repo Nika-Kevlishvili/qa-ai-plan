@@ -3,7 +3,7 @@
   "title": "QA AI — ერთწლიანი გეგმა",
   "version": "2.1",
   "range": "Q4 2026 — Q3 2027",
-  "updatedAt": "2026-11-20T17:00:07+04:00",
+  "updatedAt": "2026-11-24T14:55:12+04:00",
   "sourceUrl": "https://asterbit.slack.com/docs/T04ED18EWMA/F0C9Q2F525N",
   "pvm": {
     "title": "ASTERBIT — QA AI",
@@ -394,17 +394,20 @@
             {
               "key": "GB-1847",
               "status": "In Progress",
-              "since": "2026-11-16"
+              "since": "2026-11-16",
+              "assignee": "Gigi gamjashvili"
             },
             {
               "key": "GB-1836",
               "status": "Done",
-              "done": "2026-11-16"
+              "done": "2026-11-16",
+              "assignee": "Luka Tchrikishvili"
             },
             {
               "key": "GB-1837",
               "status": "Done",
-              "done": "2026-11-12"
+              "done": "2026-11-12",
+              "assignee": "Keti Nanuashvili"
             },
             {
               "key": "GB-1779",
@@ -433,12 +436,14 @@
             {
               "key": "GB-1797",
               "status": "Done",
-              "done": "2026-11-02"
+              "done": "2026-11-02",
+              "assignee": "Teona Svanadze"
             },
             {
               "key": "GB-1829",
               "status": "Done",
-              "done": "2026-10-15"
+              "done": "2026-10-15",
+              "assignee": "Luka Tchrikishvili"
             },
             {
               "key": "GB-1809",
@@ -458,15 +463,18 @@
             },
             {
               "key": "GB-1835",
-              "status": "ON HOLD"
+              "status": "ON HOLD",
+              "assignee": "Giorgi Kikriashvili"
             },
             {
               "key": "GB-1828",
-              "status": "Backlog"
+              "status": "Backlog",
+              "assignee": "Giorgi Kikriashvili"
             },
             {
               "key": "GB-1710",
-              "status": "ON HOLD"
+              "status": "ON HOLD",
+              "assignee": "Saba Uertashvili"
             }
           ]
         },
@@ -478,16 +486,19 @@
           "links": [
             {
               "key": "GB-1820",
-              "status": "Backlog"
+              "status": "Backlog",
+              "assignee": "nika kevlishvili"
             },
             {
               "key": "GB-1821",
-              "status": "Backlog"
+              "status": "Backlog",
+              "assignee": "Giorgi Kikriashvili"
             },
             {
               "key": "GB-1846",
               "status": "Done",
-              "done": "2026-11-20"
+              "done": "2026-11-20",
+              "assignee": "Saba Uertashvili"
             }
           ]
         },
@@ -500,15 +511,18 @@
             {
               "key": "GB-1864",
               "status": "Done",
-              "done": "2026-10-27"
+              "done": "2026-10-27",
+              "assignee": "Levani Demurashvili"
             },
             {
               "key": "GB-1818",
-              "status": "ON HOLD"
+              "status": "ON HOLD",
+              "assignee": "Luka Tchrikishvili"
             },
             {
               "key": "GB-1788",
-              "status": "ON HOLD"
+              "status": "ON HOLD",
+              "assignee": "Giorgi Kikriashvili"
             }
           ]
         },
@@ -527,7 +541,8 @@
           "priority": "high",
           "jira": "GB-1775",
           "status": "Done",
-          "done": "2026-08-14"
+          "done": "2026-08-14",
+          "assignee": "Gigi gamjashvili"
         },
         {
           "id": "11",
@@ -536,7 +551,8 @@
           "priority": "high",
           "jira": "GB-1807",
           "status": "Done",
-          "done": "2026-10-20"
+          "done": "2026-10-20",
+          "assignee": "nika kevlishvili"
         },
         {
           "id": "12",
@@ -544,7 +560,8 @@
           "area": "პროექტი",
           "priority": "medium",
           "jira": "GB-1843",
-          "status": "Backlog"
+          "status": "Backlog",
+          "assignee": "Luka Tchrikishvili"
         },
         {
           "id": "13",
@@ -555,12 +572,14 @@
             {
               "key": "GB-1805",
               "status": "Done",
-              "done": "2026-11-13"
+              "done": "2026-11-13",
+              "assignee": "Keti Nanuashvili"
             },
             {
               "key": "GB-1830",
               "status": "Done",
-              "done": "2026-10-26"
+              "done": "2026-10-26",
+              "assignee": "nika kevlishvili"
             }
           ]
         },
@@ -577,7 +596,8 @@
           "priority": "medium",
           "jira": "GB-1790",
           "status": "Done",
-          "done": "2026-10-26"
+          "done": "2026-10-26",
+          "assignee": "Giorgi Kikriashvili"
         },
         {
           "id": "16",
@@ -585,7 +605,8 @@
           "area": "პროექტი",
           "priority": "high",
           "jira": "GB-1785",
-          "status": "ON HOLD"
+          "status": "ON HOLD",
+          "assignee": "Keti Nanuashvili"
         },
         {
           "id": "17",
@@ -600,7 +621,8 @@
           "priority": "high",
           "jira": "GB-1813",
           "status": "Done",
-          "done": "2026-10-04"
+          "done": "2026-10-04",
+          "assignee": "nika kevlishvili"
         },
         {
           "id": "19",
@@ -609,7 +631,8 @@
           "priority": "high",
           "jira": "GB-1814",
           "status": "Done",
-          "done": "2026-10-04"
+          "done": "2026-10-04",
+          "assignee": "nika kevlishvili"
         },
         {
           "id": "20",
@@ -618,7 +641,8 @@
           "priority": "high",
           "jira": "GB-1866",
           "status": "Done",
-          "done": "2026-10-20"
+          "done": "2026-10-20",
+          "assignee": "nika kevlishvili"
         }
       ]
     },
@@ -636,16 +660,19 @@
             {
               "key": "GB-1839",
               "status": "Done",
-              "done": "2026-11-20"
+              "done": "2026-11-20",
+              "assignee": "Saba Uertashvili"
             },
             {
               "key": "GB-1838",
               "status": "In Progress",
-              "since": "2026-11-17"
+              "since": "2026-11-17",
+              "assignee": "Teona Svanadze"
             },
             {
               "key": "GB-1824",
-              "status": "Backlog"
+              "status": "Backlog",
+              "assignee": "Teona Svanadze"
             }
           ]
         },
@@ -657,37 +684,45 @@
           "links": [
             {
               "key": "GB-1826",
-              "status": "Backlog"
+              "status": "Backlog",
+              "assignee": "Gigi gamjashvili"
             },
             {
               "key": "GB-1825",
-              "status": "Backlog"
+              "status": "Backlog",
+              "assignee": "Saba Uertashvili"
             },
             {
               "key": "GB-1840",
-              "status": "Backlog"
+              "status": "Backlog",
+              "assignee": "Gigi gamjashvili"
             },
             {
               "key": "GB-1844",
               "status": "Done",
-              "done": "2026-11-13"
+              "done": "2026-11-13",
+              "assignee": "Keti Nanuashvili"
             },
             {
               "key": "GB-1834",
-              "status": "Backlog"
+              "status": "Backlog",
+              "assignee": "nika kevlishvili"
             },
             {
               "key": "GB-1827",
-              "status": "Backlog"
+              "status": "Backlog",
+              "assignee": "nika kevlishvili"
             },
             {
               "key": "GB-1842",
-              "status": "Backlog"
+              "status": "Backlog",
+              "assignee": "Giorgi Kikriashvili"
             },
             {
               "key": "GB-1851",
               "status": "Done",
-              "done": "2026-11-13"
+              "done": "2026-11-13",
+              "assignee": "Keti Nanuashvili"
             }
           ]
         },
@@ -700,12 +735,14 @@
             {
               "key": "GB-1778",
               "status": "In Progress",
-              "since": "2026-07-28"
+              "since": "2026-07-28",
+              "assignee": "nika kevlishvili"
             },
             {
               "key": "GB-1862",
               "status": "Done",
-              "done": "2026-11-05"
+              "done": "2026-11-05",
+              "assignee": "Levani Demurashvili"
             }
           ]
         },
@@ -729,16 +766,19 @@
           "links": [
             {
               "key": "GB-1806",
-              "status": "ON HOLD"
+              "status": "ON HOLD",
+              "assignee": "Keti Nanuashvili"
             },
             {
               "key": "GB-1799",
               "status": "Done",
-              "done": "2026-11-04"
+              "done": "2026-11-04",
+              "assignee": "Giorgi Kikriashvili"
             },
             {
               "key": "GB-1796",
-              "status": "Backlog"
+              "status": "Backlog",
+              "assignee": "Giorgi Kikriashvili"
             }
           ]
         },
@@ -757,11 +797,13 @@
             {
               "key": "GB-1831",
               "status": "Done",
-              "done": "2026-11-12"
+              "done": "2026-11-12",
+              "assignee": "Teona Svanadze"
             },
             {
               "key": "GB-1833",
-              "status": "Backlog"
+              "status": "Backlog",
+              "assignee": "Gigi gamjashvili"
             }
           ]
         },
@@ -771,7 +813,8 @@
           "area": "პროექტი",
           "priority": "medium",
           "jira": "GB-1863",
-          "status": "Invalid Bug/Won't Do"
+          "status": "Invalid Bug/Won't Do",
+          "assignee": "tika bitsadze"
         },
         {
           "id": "36",
@@ -779,7 +822,8 @@
           "area": "პროექტი",
           "priority": "medium",
           "jira": "GB-1849",
-          "status": "Backlog"
+          "status": "Backlog",
+          "assignee": "Giorgi Kikriashvili"
         },
         {
           "id": "37",
@@ -787,7 +831,8 @@
           "area": "პროექტი",
           "priority": "medium",
           "jira": "GB-1854",
-          "status": "Backlog"
+          "status": "Backlog",
+          "assignee": "Gigi gamjashvili"
         },
         {
           "id": "38",
@@ -795,7 +840,8 @@
           "area": "პროექტი",
           "priority": "medium",
           "jira": "GB-1822",
-          "status": "Backlog"
+          "status": "Backlog",
+          "assignee": "Luka Tchrikishvili"
         },
         {
           "id": "39",
@@ -803,7 +849,8 @@
           "area": "PVM / პროექტი",
           "priority": "medium",
           "jira": "GB-1845",
-          "status": "Backlog"
+          "status": "Backlog",
+          "assignee": "Teona Svanadze"
         },
         {
           "id": "40",
@@ -811,7 +858,8 @@
           "area": "პროექტი",
           "priority": "medium",
           "jira": "GB-1853",
-          "status": "Backlog"
+          "status": "Backlog",
+          "assignee": "Saba Uertashvili"
         },
         {
           "id": "41",
@@ -842,25 +890,30 @@
           "links": [
             {
               "key": "GB-1850",
-              "status": "ON HOLD"
+              "status": "ON HOLD",
+              "assignee": "Luka Tchrikishvili"
             },
             {
               "key": "GB-1852",
-              "status": "Backlog"
+              "status": "Backlog",
+              "assignee": "Teona Svanadze"
             },
             {
               "key": "GB-1855",
               "status": "Done",
-              "done": "2026-11-17"
+              "done": "2026-11-17",
+              "assignee": "tika bitsadze"
             },
             {
               "key": "GB-1856",
-              "status": "Duplicated"
+              "status": "Duplicated",
+              "assignee": "tika bitsadze"
             },
             {
               "key": "GB-1858",
               "status": "Done",
-              "done": "2026-11-10"
+              "done": "2026-11-10",
+              "assignee": "Levani Demurashvili"
             }
           ]
         },
@@ -876,7 +929,8 @@
           "area": "პროექტი",
           "priority": "high",
           "jira": "GB-1787",
-          "status": "ON HOLD"
+          "status": "ON HOLD",
+          "assignee": "Giorgi Kikriashvili"
         },
         {
           "id": "27",
@@ -886,11 +940,13 @@
           "links": [
             {
               "key": "GB-1792",
-              "status": "Backlog"
+              "status": "Backlog",
+              "assignee": "nika kevlishvili"
             },
             {
               "key": "GB-1789",
-              "status": "Backlog"
+              "status": "Backlog",
+              "assignee": "Saba Uertashvili"
             }
           ]
         },
@@ -900,7 +956,8 @@
           "area": "პროექტი",
           "priority": "medium",
           "jira": "GB-1786",
-          "status": "ON HOLD"
+          "status": "ON HOLD",
+          "assignee": "Giorgi Kikriashvili"
         },
         {
           "id": "42",
@@ -910,11 +967,13 @@
           "links": [
             {
               "key": "GB-1848",
-              "status": "Backlog"
+              "status": "Backlog",
+              "assignee": "nika kevlishvili"
             },
             {
               "key": "GB-1865",
-              "status": "ON HOLD"
+              "status": "ON HOLD",
+              "assignee": "tika bitsadze"
             }
           ]
         },
@@ -926,11 +985,13 @@
           "links": [
             {
               "key": "GB-1861",
-              "status": "Backlog"
+              "status": "Backlog",
+              "assignee": "Gigi gamjashvili"
             },
             {
               "key": "GB-1857",
-              "status": "Backlog"
+              "status": "Backlog",
+              "assignee": "tika bitsadze"
             }
           ]
         }
@@ -971,7 +1032,8 @@
           "area": "პროექტი",
           "priority": "medium",
           "jira": "GB-1793",
-          "status": "Backlog"
+          "status": "Backlog",
+          "assignee": "nika kevlishvili"
         },
         {
           "id": "32",
@@ -982,11 +1044,13 @@
             {
               "key": "GB-1859",
               "status": "Done",
-              "done": "2026-11-02"
+              "done": "2026-11-02",
+              "assignee": "tika bitsadze"
             },
             {
               "key": "GB-1860",
-              "status": "Invalid Bug/Won't Do"
+              "status": "Invalid Bug/Won't Do",
+              "assignee": "Levani Demurashvili"
             }
           ]
         }

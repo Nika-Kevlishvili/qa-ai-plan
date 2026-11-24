@@ -52,7 +52,7 @@ async function jira(path) {
 }
 
 async function loadIssue(key) {
-  const issue = await jira(`/rest/api/3/issue/${encodeURIComponent(key)}?fields=status,resolutiondate,priority&expand=changelog`);
+  const issue = await jira(`/rest/api/3/issue/${encodeURIComponent(key)}?fields=status,resolutiondate,priority,assignee&expand=changelog`);
   const histories = [...(issue.changelog?.histories || [])];
   let startAt = histories.length;
   const total = issue.changelog?.total || histories.length;
@@ -78,7 +78,13 @@ async function loadIssue(key) {
   let done = "";
   if (status === "In Progress") since = tbilisiDate(latestTo("In Progress"));
   if (status === "Done") done = tbilisiDate(issue.fields?.resolutiondate) || tbilisiDate(latestTo("Done"));
-  return { status, since, done, priority: issue.fields?.priority?.name || "" };
+  return {
+    status,
+    since,
+    done,
+    priority: issue.fields?.priority?.name || "",
+    assignee: issue.fields?.assignee?.displayName || ""
+  };
 }
 
 const PRIORITY_RANK = { Urgent: "high", Highest: "high", High: "high", Medium: "medium", Low: "low", Lowest: "low" };
@@ -139,7 +145,7 @@ function linkedTargets(plan) {
 }
 
 function stamp(target) {
-  return [target.key || target.jira, target.status || "", target.since || "", target.done || ""].join("|");
+  return [target.key || target.jira, target.status || "", target.since || "", target.done || "", target.assignee || ""].join("|");
 }
 
 async function mapPool(items, limit, worker) {
@@ -179,6 +185,8 @@ for (const target of targets) {
     delete target.since;
     delete target.done;
   }
+  if (info.assignee) target.assignee = info.assignee;
+  else delete target.assignee;
 }
 
 for (const quarter of plan.quarters || []) {
